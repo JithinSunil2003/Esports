@@ -13,6 +13,7 @@ urlpatterns = [
         path('Eventtype/',views.eventtype,name="eventtype"),
         path('deleventtype/<str:id>',views.deleventtype,name="deleventtype"),
         path('editeventtype/<str:id>',views.editeventtype,name="editeventtype"),
+        path('editevent/<str:id>',views.editevent,name="editevent"),
         
         
 

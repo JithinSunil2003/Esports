@@ -22,11 +22,11 @@
             </tr>
             <tr>
                 <td>Name</td>
-                <td><input type="text" name="ename" id=""></td>
+                <td><input type="text" name="ename" id="" value="{{event_data.event_name}}"></td>
             </tr>
             <tr>
                 <td>Description</td>
-                <td><textarea name="description" id="" cols="30" rows="10"></textarea></td>
+                <td><textarea name="description" id="" cols="30" rows="10">{{event_data.description}}</textarea></td>
             </tr>
             <tr>
                 <td colspan="2" align="center"><input type="submit" value="Submit"><input type="reset" value="Reset"></td>
@@ -39,14 +39,17 @@
     <table>
         <tr>
             <td>#</td>
-            <td>Event Type</td>
             <td>Name</td>
+            <td>Description</td>
             <td>Action</td>
         </tr>
-        {% for i in Etype %}
+        {% for i in event_data %}
         <tr>
             <td>{{forloop.counter}}</td>
-            <td>{{i.Etype.Event_type}}</td>
+        
+            <td>{{i.event_data.event_name}}</td>
+            <td>{{i.event_data.description}}</td>
+            <td><a href="{% url 'webadmin:editevent' i.eventid %}">Edit</a></td>
             
         </tr>
         {% endfor %}

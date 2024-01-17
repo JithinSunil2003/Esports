@@ -116,15 +116,28 @@ def event(request):
     event_data=db.collection("tbl_event").stream()
     for event in event_data:
         event_dict=event.to_dict()
-        Etype=db.collection("tbl_Eventtype").document(Etype_dict["Eventtype_id"]).get()
+        Etype=db.collection("tbl_Eventtype").document(event_dict["Eventtype_id"]).get()
         Etype_dict=Etype.to_dict()
         result.append({'Etypedata':Etype_dict,'event_data':event_dict,'eventid':event.id})
     if request.method=="POST":
-        data={"event_name":request.POST.get("event"),"Eventtype_id":request.POST.get("etype")}
+        data={"event_name":request.POST.get("ename"),"Eventtype_id":request.POST.get("etype"),"description":request.POST.get("description")}
         db.collection("tbl_event").add(data)
         return redirect("webadmin:event")
     else:
-        return render(request,"Admin/Event.html",{"Etype":Etype_data,"event":result})
+        return render(request,"Admin/Event.html",{"Etype":Etype_data,"event_data":result})
 
     return render(request,"Admin/Event.html")
 
+
+def editevent(request,id):
+    Etype = db.collection("tbl_Eventtype").stream()
+    Etype_data = []
+    for e in Etype:
+        Etype_data.append({"Etype":e.to_dict(),"id":e.id})
+    event_data=db.collection("tbl_event").document(id).get().to_dict()
+    if request.method=="POST":
+       event_data={"event_name":request.POST.get("ename"),"Eventtype_id":request.POST.get("etype"),"description":request.POST.get("description")}
+       db.collection("tbl_event").document(id).update(event_data)
+       return redirect("webadmin:event")
+    else:
+        return render(request,"Admin/Event.html",{"result":event_data,"Etype":Etype_data})

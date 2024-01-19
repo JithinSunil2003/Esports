@@ -46,7 +46,6 @@
         {% for i in event_data %}
         <tr>
             <td>{{forloop.counter}}</td>
-        
             <td>{{i.event_data.event_name}}</td>
             <td>{{i.event_data.description}}</td>
             <td><a href="{% url 'webadmin:editevent' i.eventid %}">Edit</a></td>

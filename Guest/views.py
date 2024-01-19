@@ -58,19 +58,55 @@ def orgreg(request):
     else:
         return render(request,"Guest/Organizer.html",{"district":dis_data})
 
+        
+def teamreg(request):
+    dis = db.collection("tbl_district").stream()
+    dis_data = []
+    for d in dis:
+        dis_data.append({"dis":d.to_dict(),"id":d.id})
+    if request.method =="POST":
+        email = request.POST.get("temail")
+        password = request.POST.get("password")
+        try:
+            team = firebase_admin.auth.create_user(email=email,password=password)
+        except (firebase_admin._auth_utils.EmailAlreadyExistsError,ValueError) as error:
+            return render(request,"Guest/Teams.html",{"msg":error})
+        image = request.FILES.get("tphoto")
+        if image:
+            path = "TeamPhoto/" + image.name
+            st.child(path).put(image)
+            t_url = st.child(path).get_url(None)
+        proof=request.FILES.get("tproof")    
+        if proof:
+            path = "TeamProof/" + proof.name
+            st.child(path).put(proof)
+            e_url = st.child(path).get_url(None)     
+        db.collection("tbl_teamreg").add({"team_id":team.uid,"team_name":request.POST.get("tname"),"team_contact":request.POST.get("tcontact"),"team_email":request.POST.get("temail"),"team_address":request.POST.get("taddress"),"place_id":request.POST.get("sel_place"),"team_photo":t_url,"team_proof":e_url})
+        return render(request,"Guest/Teams.html")
+    else:
+        return render(request,"Guest/Teams.html",{"district":dis_data})
+
+
 def login(request):
-    organizer:""
+    organizerid = ""
+    teamid =""
     if request.method == "POST":
-        email = request.POST.get("orgemail")
+        email = request.POST.get("email")
         password = request.POST.get("password")
         try:
             data = authe.sign_in_with_email_and_password(email,password)
         except:
             return render(request,"Guest/Login.html",{"msg":"Error in Email Or Password"})
-        organizer = db.collection("tbl_Organizer").where("organizer_id", "==", data["localId"]).stream()
-        for u in organizer:
+        organizer = db.collection("tbl_orgreg").where("org_id", "==", data["localId"]).stream()
+        for o in organizer:
             organizerid = o.id
+        team=db.collection("tbl_teamreg").where("team_id","==",data["localId"]).stream()    
+        for t in team:
+            teamid=t.id    
         if organizerid:
             request.session["oid"] = organizerid
-            return redirect("weborganizer:homepage")    
+            return redirect("weborganizer:homepage")  
+        if teamid:
+            request.session["tid"]=teamid    
+            return redirect("webteams:homepage")
     return render(request,"Guest/Login.html")    

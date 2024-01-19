@@ -4,6 +4,7 @@ app_name="webguest"
 
 urlpatterns = [
     path('orgreg/',views.orgreg,name="orgreg"),
+    path('teamreg/',views.teamreg,name="teamreg"),
     path('ajaxplace/',views.ajaxplace,name="ajaxplace"),
     path('login/',views.login,name="login"),
 ]

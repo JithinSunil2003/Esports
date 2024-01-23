@@ -58,3 +58,59 @@ def changepassword(request):
     [email],
   )
   return render(request,"Teams/Homepage.html",{"msg":email})
+
+def complaint(request):
+  com=db.collection("tbl_complaint").stream()
+  com_data=[]
+  for i in com:
+        data=i.to_dict()
+        com_data.append({"com":data,"id":i.id})
+  if request.method=="POST":
+        data={"complaint_content":request.POST.get("content")}
+        db.collection("tbl_complaint").add(data)
+        return redirect("webteams:complaint")
+  else:
+        return render(request,"Teams/Complaint.html",{"com":com_data})
+
+
+def delcomplaint(request,id):
+  db.collection("tbl_complaint").document(id).delete()     
+  return redirect("webteams:complaint")  
+
+def feedback(request):
+  feed=db.collection("tbl_feedback").stream()
+  feed_data=[]
+  for i in feed:
+      data=i.to_dict
+      feed_data.append({"feed":data,"id":i.id})
+  if request.method=="POST":
+    data={"feedback_content":request.POST.get("content")}
+    db.collection("tbl_feedback").add(data)
+    return redirect("webteams:feedback")
+  else:
+    return render(request,"Teams/Feedback.html",{"feed":feed_data})  
+
+
+def delfeedback(request,id):
+  db.collection("tbl_feedback").document(id).delete()
+  return redirect("webteams:feedback")    
+
+
+def achivements(request):
+  achive=db.collection("tbl_achivements").stream()
+  achive_data=[]
+  for i in achive:
+    data=i.to_dict
+    achive_data.append({"achive":data,"id":i.id})
+  if request.method=="POST":
+    image = request.FILES.get("photo")
+    if image:
+          path = "AchivementsPhoto/" + image.name
+          st.child(path).put(image)
+          a_url = st.child(path).get_url(None)
+        photo=request.FILES.get("photo")  
+    data={"achivements_name":request.POST.get("name"),"achivements_description":request.POST.get("description"),"achivements_photo":a_url}
+    db.collection("tbl_achivements").add(data)
+    return redirect("webteams:achivements")
+  else:
+    return render(request,"Teams/achivements.html",{"achivements":achive_data})  

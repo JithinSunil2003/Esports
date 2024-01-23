@@ -90,9 +90,47 @@ def editevent(request,id):
     if request.method=="POST":
        event_data={"event_name":request.POST.get("ename"),"Eventtype_id":request.POST.get("etype"),"description":request.POST.get("description")}
        db.collection("tbl_event").document(id).update(event_data)
-       return redirect("webadmin:event")
+       return redirect("weborganizer:event")
     else:
-        return render(request,"Admin/Event.html",{"Etype":Etype_data,"event_data":event_data})
+        return render(request,"Organizer/Event.html",{"Etype":Etype_data,"eventdata":event_data})
      
+def delevent(request,id):
+    db.collection("tbl_event").document(id).delete()
+    return redirect("weborganizer:event")       
 
 
+def complaint(request):
+  com=db.collection("tbl_complaint").stream()
+  com_data=[]
+  for i in com:
+        data=i.to_dict()
+        com_data.append({"com":data,"id":i.id})
+  if request.method=="POST":
+        data={"complaint_content":request.POST.get("content")}
+        db.collection("tbl_complaint").add(data)
+        return redirect("weborganizer:complaint")
+  else:
+        return render(request,"Organizer/Complaint.html",{"com":com_data})
+
+
+def delcomplaint(request,id):
+  db.collection("tbl_complaint").document(id).delete()     
+  return redirect("weborganizer:complaint")  
+
+def feedback(request):
+  feed=db.collection("tbl_feedback").stream()
+  feed_data=[]
+  for i in feed:
+      data=i.to_dict
+      feed_data.append({"feed":data,"id":i.id})
+  if request.method=="POST":
+    data={"feedback_content":request.POST.get("content")}
+    db.collection("tbl_feedback").add(data)
+    return redirect("weborganizer:feedback")
+  else:
+    return render(request,"Organizer/Feedback.html",{"feed":feed_data})  
+
+
+def delfeedback(request,id):
+  db.collection("tbl_feedback").document(id).delete()
+  return redirect("weborganizer:feedback")    

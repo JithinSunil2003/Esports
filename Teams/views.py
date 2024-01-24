@@ -103,14 +103,38 @@ def achivements(request):
     data=i.to_dict
     achive_data.append({"achive":data,"id":i.id})
   if request.method=="POST":
-    image = request.FILES.get("photo")
+    image = request.FILES.get("Photo")
     if image:
-          path = "AchivementsPhoto/" + image.name
-          st.child(path).put(image)
-          a_url = st.child(path).get_url(None)
-        photo=request.FILES.get("photo")  
+      path = "AchivementsPhoto/" + image.name
+      st.child(path).put(image)
+      a_url = st.child(path).get_url(None)
+     
     data={"achivements_name":request.POST.get("name"),"achivements_description":request.POST.get("description"),"achivements_photo":a_url}
     db.collection("tbl_achivements").add(data)
     return redirect("webteams:achivements")
   else:
     return render(request,"Teams/achivements.html",{"achivements":achive_data})  
+
+
+def delachivements(request,id):
+  db.collection("tbl_achivements"),document(id).delete()
+  return redirect("webteams:achivements")
+
+
+def members(request):
+  members=db.collection("tbl_teammember").stream()
+  member_data=[]
+  for i in members:
+    data=i.to_dict
+    member_data.append({'members':data,"id":i.id})
+  if request.method=="POST":
+    data={"member_name":request.POST.get("name"),"member_contact":request.POST.get("contact"),"member_email":request.POST.get("email"),"member_address":request.POST.get("address")}
+    db.collection("tbl_teammember").add(data)
+    return redirect("webteams:members")  
+  else:  
+    return render(request,"Teams/TeamMembers.html",{"members":member_data})
+
+def delmembers(request,id):
+  db.collection("tbl_teammember").document(id).delete()
+  return redirect("webteams:members") 
+

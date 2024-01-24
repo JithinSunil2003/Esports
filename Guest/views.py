@@ -87,6 +87,31 @@ def teamreg(request):
         return render(request,"Guest/Teams.html",{"district":dis_data})
 
 
+def userreg(request):
+    dis = db.collection("tbl_district").stream()
+    dis_data = []
+    for d in dis:
+        dis_data.append({"dis":d.to_dict(),"id":d.id})
+    if request.method =="POST":
+        email = request.POST.get("uemail")
+        password = request.POST.get("password")
+        try:
+            user = firebase_admin.auth.create_user(email=email,password=password)
+        except (firebase_admin._auth_utils.EmailAlreadyExistsError,ValueError) as error:
+            return render(request,"Guest/Teams.html",{"msg":error})
+        image = request.FILES.get("uphoto")
+        if image:
+            path = "UserPhoto/" + image.name
+            st.child(path).put(image)
+            u_url = st.child(path).get_url(None)
+         
+        db.collection("tbl_userreg").add({"user_id":user.uid,"user_name":request.POST.get("uname"),"user_contact":request.POST.get("ucontact"),"user_email":request.POST.get("uemail"),"user_address":request.POST.get("uaddress"),"place_id":request.POST.get("sel_place"),"user_photo":u_url})
+        return render(request,"Guest/User.html")
+    else:
+        return render(request,"Guest/user.html",{"district":dis_data})
+
+
+
 def login(request):
     organizerid = ""
     teamid =""

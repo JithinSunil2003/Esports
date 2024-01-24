@@ -10,7 +10,9 @@ urlpatterns = [
     path('Complaint',views.complaint,name="complaint"),
     path('delcomplaint/<str:id>',views.delcomplaint,name="delcomplaint"),
     path('Feedback/',views.feedback,name="feedback"),
-    path('delfeedback/',views.delfeedback,name="delfeedback"),
-    path('Acheviments/',views.Acheviments,name="Acheviments"),
-
+    path('delfeedback/<str:id>',views.delfeedback,name="delfeedback"),
+    path('Acheviments/',views.achivements,name="achivements"),
+    path('delachivements/<str:id>',views.delachivements,name="delachivements"),
+    path('TeamMembers/',views.members,name="members"),
+    path('delmembers/<str:id>',views.delmembers,name="delmembers"),
 ]

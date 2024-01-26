@@ -5,7 +5,7 @@ import pyrebase
 from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib import messages
-
+from datetime import date
 
 
 db=firestore.client()
@@ -101,13 +101,14 @@ def delevent(request,id):
 
 def complaint(request):
   if 'oid' in request.session:
-    com=db.collection("tbl_complaint").stream()
+    com=db.collection("tbl_complaint").where("organizer_id","==",request.session["oid"]).stream()
     com_data=[]
   for i in com:
       data=i.to_dict()
       com_data.append({"com":data,"id":i.id})
   if request.method=="POST":
-      data={"complaint_content":request.POST.get("content"),"organizer_id":request.session["oid"]}
+      datedata = date.today()
+      data={"complaint_content":request.POST.get("content"),"organizer_id":request.session["oid"],"complaint_status":0,"complaint_date":str(datedata)}
       db.collection("tbl_complaint").add(data)
       return redirect("weborganizer:complaint")
   else:
@@ -119,13 +120,14 @@ def delcomplaint(request,id):
   return redirect("weborganizer:complaint")  
 
 def feedback(request):
-  feed=db.collection("tbl_feedback").stream()
+  feed=db.collection("tbl_feedback").where("organizer_id","==",request.session["oid"]).stream()
   feed_data=[]
   for i in feed:
       data=i.to_dict
       feed_data.append({"feed":data,"id":i.id})
   if request.method=="POST":
-    data={"feedback_content":request.POST.get("content")}
+    
+    data={"feedback_content":request.POST.get("content"),"organizer_id":request.session["oid"]}
     db.collection("tbl_feedback").add(data)
     return redirect("weborganizer:feedback")
   else:

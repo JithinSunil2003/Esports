@@ -5,7 +5,7 @@ import pyrebase
 from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib import messages
-
+from datetime import date
 
 
 db=firestore.client()
@@ -60,14 +60,14 @@ def changepassword(request):
 
 def complaint(request):
     if 'uid' in request.session:
-        com=db.collection("tbl_complaint").stream()
+        com=db.collection("tbl_complaint").where("user_id","==",request.session["uid"]).stream()
         com_data=[]
     for i in com:
         data=i.to_dict()
         com_data.append({"com":data,"id":i.id})
     if request.method=="POST":
-        
-        data={"complaint_content":request.POST.get("content"),"user_id":request.session["uid"]}
+        datedata = date.today()
+        data={"complaint_content":request.POST.get("content"),"user_id":request.session["uid"],"complaint_status":0,"complaint_date":str(datedata)}
         db.collection("tbl_complaint").add(data)
         return redirect("webuser:complaint")
     else:
@@ -79,17 +79,18 @@ def delcomplaint(request,id):
   return redirect("webuser:complaint")  
 
 def feedback(request):
-  feed=db.collection("tbl_feedback").stream()
-  feed_data=[]
-  for i in feed:
+    if 'uid' in request.session:
+        feed=db.collection("tbl_feedback").where("user_id","==",request.session["uid"]).stream()
+        feed_data=[]
+    for i in feed:
       data=i.to_dict
       feed_data.append({"feed":data,"id":i.id})
-  if request.method=="POST":
-    data={"feedback_content":request.POST.get("content")}
-    db.collection("tbl_feedback").add(data)
-    return redirect("webuser:feedback")
-  else:
-    return render(request,"User/Feedback.html",{"feed":feed_data})  
+    if request.method=="POST":
+        data={"feedback_content":request.POST.get("content"),"user_id":request.session["uid"]}
+        db.collection("tbl_feedback").add(data)
+        return redirect("webuser:feedback")
+    else:
+        return render(request,"User/Feedback.html",{"feed":feed_data})  
 
 
 def delfeedback(request,id):

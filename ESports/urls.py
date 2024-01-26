@@ -23,4 +23,5 @@ urlpatterns = [
     path('Guest/',include('Guest.urls')),
     path('Organizer/',include('Organizer.urls')),
     path('Teams/',include('Teams.urls')),
+    path('User/',include('User.urls')),
 ]

@@ -100,17 +100,18 @@ def delevent(request,id):
 
 
 def complaint(request):
-  com=db.collection("tbl_complaint").stream()
-  com_data=[]
+  if 'oid' in request.session:
+    com=db.collection("tbl_complaint").stream()
+    com_data=[]
   for i in com:
-        data=i.to_dict()
-        com_data.append({"com":data,"id":i.id})
+      data=i.to_dict()
+      com_data.append({"com":data,"id":i.id})
   if request.method=="POST":
-        data={"complaint_content":request.POST.get("content")}
-        db.collection("tbl_complaint").add(data)
-        return redirect("weborganizer:complaint")
+      data={"complaint_content":request.POST.get("content"),"organizer_id":request.session["oid"]}
+      db.collection("tbl_complaint").add(data)
+      return redirect("weborganizer:complaint")
   else:
-        return render(request,"Organizer/Complaint.html",{"com":com_data})
+    return render(request,"Organizer/Complaint.html",{"com":com_data})
 
 
 def delcomplaint(request,id):

@@ -115,6 +115,7 @@ def userreg(request):
 def login(request):
     organizerid = ""
     teamid =""
+    userid=""
     if request.method == "POST":
         email = request.POST.get("email")
         password = request.POST.get("password")
@@ -127,11 +128,17 @@ def login(request):
             organizerid = o.id
         team=db.collection("tbl_teamreg").where("team_id","==",data["localId"]).stream()    
         for t in team:
-            teamid=t.id    
+            teamid=t.id  
+        user=db.collection("tbl_userreg").where("user_id","==",data["localId"]).stream()    
+        for u in user:
+            userid=u.id
         if organizerid:
             request.session["oid"] = organizerid
             return redirect("weborganizer:homepage")  
         if teamid:
             request.session["tid"]=teamid    
             return redirect("webteams:homepage")
+        if userid:
+            request.session["uid"]=userid
+            return redirect("webuser:homepage")   
     return render(request,"Guest/Login.html")    

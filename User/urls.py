@@ -1,6 +1,6 @@
 from django.urls import path
-from Teams import views
-app_name="webteams"
+from User import views
+app_name="webuser"
 
 urlpatterns = [
     path("homepage/",views.homepage,name="homepage"),
@@ -11,8 +11,4 @@ urlpatterns = [
     path('delcomplaint/<str:id>',views.delcomplaint,name="delcomplaint"),
     path('Feedback/',views.feedback,name="feedback"),
     path('delfeedback/<str:id>',views.delfeedback,name="delfeedback"),
-    path('Acheviments/',views.achivements,name="achivements"),
-    path('delachivements/<str:id>',views.delachivements,name="delachivements"),
-    path('TeamMembers/',views.members,name="members"),
-    path('delmembers/<str:id>',views.delmembers,name="delmembers"),
 ]

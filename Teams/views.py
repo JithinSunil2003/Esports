@@ -60,17 +60,18 @@ def changepassword(request):
   return render(request,"Teams/Homepage.html",{"msg":email})
 
 def complaint(request):
-  com=db.collection("tbl_complaint").stream()
-  com_data=[]
+  if 'tid' in request.session:
+    com=db.collection("tbl_complaint").stream()
+    com_data=[]
   for i in com:
-        data=i.to_dict()
-        com_data.append({"com":data,"id":i.id})
+      data=i.to_dict()
+      com_data.append({"com":data,"id":i.id})
   if request.method=="POST":
-        data={"complaint_content":request.POST.get("content")}
-        db.collection("tbl_complaint").add(data)
-        return redirect("webteams:complaint")
+      data={"complaint_content":request.POST.get("content"),"team_id":request.session["tid"]}
+      db.collection("tbl_complaint").add(data)
+      return redirect("webteams:complaint")
   else:
-        return render(request,"Teams/Complaint.html",{"com":com_data})
+    return render(request,"Teams/Complaint.html",{"com":com_data})
 
 
 def delcomplaint(request,id):

@@ -59,26 +59,26 @@ def changepassword(request):
 
 
 def event(request):
-    Etype=db.collection("tbl_Eventtype").stream()
-    Etype_data=[]
-    for i in Etype:
-        data=i.to_dict()
-        Etype_data.append({"Etype":i.to_dict(),"id":i.id})
+  Etype=db.collection("tbl_Eventtype").stream()
+  Etype_data=[]
+  for i in Etype:
+    data=i.to_dict()
+    Etype_data.append({"Etype":i.to_dict(),"id":i.id})
     result=[]
     event_data=db.collection("tbl_event").stream()
-    for event in event_data:
-        event_dict=event.to_dict()
-        Etype=db.collection("tbl_Eventtype").document(event_dict["Eventtype_id"]).get()
-        Etype_dict=Etype.to_dict()
-        result.append({'Etypedata':Etype_dict,'event_data':event_dict,'eventid':event.id})
-    if request.method=="POST":
-        data={"event_name":request.POST.get("ename"),"Eventtype_id":request.POST.get("etype"),"description":request.POST.get("description")}
-        db.collection("tbl_event").add(data)
-        return redirect("weborganizer:event")
-    else:
-        return render(request,"Organizer/Event.html",{"Etype":Etype_data,"event_data":result})
+  for event in event_data:
+    event_dict=event.to_dict()
+    Etype=db.collection("tbl_Eventtype").document(event_dict["Eventtype_id"]).get()
+    Etype_dict=Etype.to_dict()
+    result.append({'Etypedata':Etype_dict,'event_data':event_dict,'eventid':event.id})
+  if request.method=="POST":
+    data={"event_name":request.POST.get("ename"),"Eventtype_id":request.POST.get("etype"),"description":request.POST.get("description")}
+    db.collection("tbl_event").add(data)
+    return redirect("weborganizer:event")
+  else:
+    return render(request,"Organizer/Event.html",{"Etype":Etype_data,"event_data":result})
 
-    return render(request,"Organizer/Event.html")
+   
 
 
 def editevent(request,id):

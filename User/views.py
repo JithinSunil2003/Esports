@@ -47,8 +47,8 @@ def Editprofile(request):
 
 
 def changepassword(request):
-  organizer = db.collection("tbl_userreg").document(request.session["uid"]).get().to_dict()
-  email = organizer["user_email"]
+  user = db.collection("tbl_userreg").document(request.session["uid"]).get().to_dict()
+  email = user["user_email"]
   password_link = firebase_admin.auth.generate_password_reset_link(email) 
   send_mail(
     'Reset your password ', 
@@ -59,19 +59,18 @@ def changepassword(request):
   return render(request,"User/Homepage.html",{"msg":email})
 
 def complaint(request):
-    if 'uid' in request.session:
-        com=db.collection("tbl_complaint").where("user_id","==",request.session["uid"]).stream()
-        com_data=[]
-    for i in com:
-        data=i.to_dict()
-        com_data.append({"com":data,"id":i.id})
-    if request.method=="POST":
-        datedata = date.today()
-        data={"complaint_content":request.POST.get("content"),"user_id":request.session["uid"],"complaint_status":0,"complaint_date":str(datedata)}
-        db.collection("tbl_complaint").add(data)
-        return redirect("webuser:complaint")
-    else:
-        return render(request,"User/Complaint.html",{"com":com_data})
+  com=db.collection("tbl_complaint").where("user_id","==",request.session["uid"]).stream()
+  com_data=[]
+  for i in com:
+    data=i.to_dict()
+    com_data.append({"com":data,"id":i.id})
+  if request.method=="POST":
+    datedata = date.today()
+    data={"complaint_content":request.POST.get("content"),"user_id":request.session["uid"],"complaint_status":0,"complaint_date":str(datedata)}
+    db.collection("tbl_complaint").add(data)
+    return redirect("webuser:complaint")
+  else:
+    return render(request,"User/Complaint.html",{"com":com_data})
 
 
 def delcomplaint(request,id):
@@ -79,20 +78,45 @@ def delcomplaint(request,id):
   return redirect("webuser:complaint")  
 
 def feedback(request):
-    if 'uid' in request.session:
-        feed=db.collection("tbl_feedback").where("user_id","==",request.session["uid"]).stream()
-        feed_data=[]
-    for i in feed:
-      data=i.to_dict
-      feed_data.append({"feed":data,"id":i.id})
-    if request.method=="POST":
-        data={"feedback_content":request.POST.get("content"),"user_id":request.session["uid"]}
-        db.collection("tbl_feedback").add(data)
-        return redirect("webuser:feedback")
-    else:
-        return render(request,"User/Feedback.html",{"feed":feed_data})  
+  feed=db.collection("tbl_feedback").where("user_id","==",request.session["uid"]).stream()
+  feed_data=[]
+  for i in feed:
+    data=i.to_dict
+    feed_data.append({"feed":data,"id":i.id})
+  if request.method=="POST":
+    data={"feedback_content":request.POST.get("content"),"user_id":request.session["uid"]}
+    db.collection("tbl_feedback").add(data)
+    return redirect("webuser:feedback")
+  else:
+    return render(request,"User/Feedback.html",{"feed":feed_data})  
 
 
 def delfeedback(request,id):
   db.collection("tbl_feedback").document(id).delete()
   return redirect("webuser:feedback")    
+
+
+def viewevent(request):
+  Etype=db.collection("tbl_Eventtype").stream()
+  Etype_data=[]
+  for i in Etype:
+    data=i.to_dict()
+    Etype_data.append({"Etype":i.to_dict(),"id":i.id})
+    result=[]
+    event_data=db.collection("tbl_event").stream()
+  for event in event_data:
+    event_dict=event.to_dict()
+    Etype=db.collection("tbl_Eventtype").document(event_dict["Eventtype_id"]).get().to_dict()
+    result.append({'Etypedata':Etype,'event_data':event_dict,'eventid':event.id})
+  return render(request,"User/ViewEvents.html",{"event_data":result})
+
+def Req(request,id):
+  req=db.collection("tbl_request").where("user_id","==",request.session["uid"]).stream()
+  req_data=[]
+if request.method=="POST":
+  datedata = date.today()
+  data={"team_id":request.session["tid"],"request_status":0,"request_date":str(datedata)}
+  db.collection("tbl_request").add(data)
+  return redirect("webuser:req")
+else:
+  return render(request,"User/ViewEvents.html")

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="" method="post">
+        {% csrf_token %}
+        <div>
+            {% for i in event_data %}
+            <div>Event Type:{{i.Etypedata.Event_type}}</div>
+            <div>Name:{{i.event_data.event_name}}</div>
+            <div>Description:{{i.event_data.description}}</div>
+            <div><a href="{% url 'webuser:Req' i.id %}">Request</a></div>
+
+            {% endfor %}
+        </div>
+       
+    </form>
+</body>
+</html>

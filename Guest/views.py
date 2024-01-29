@@ -98,7 +98,7 @@ def userreg(request):
         try:
             user = firebase_admin.auth.create_user(email=email,password=password)
         except (firebase_admin._auth_utils.EmailAlreadyExistsError,ValueError) as error:
-            return render(request,"Guest/Teams.html",{"msg":error})
+            return render(request,"Guest/User.html",{"msg":error})
         image = request.FILES.get("uphoto")
         if image:
             path = "UserPhoto/" + image.name

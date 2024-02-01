@@ -15,4 +15,6 @@ urlpatterns = [
     path('delachivements/<str:id>',views.delachivements,name="delachivements"),
     path('TeamMembers/',views.members,name="members"),
     path('delmembers/<str:id>',views.delmembers,name="delmembers"),
+    path('ViewEvent/',views.viewevent,name="viewevent"),
+    path('request/<str:id>',views.Req,name="Req"),
 ]

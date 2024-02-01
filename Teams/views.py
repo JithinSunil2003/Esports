@@ -140,3 +140,25 @@ def delmembers(request,id):
   db.collection("tbl_teammember").document(id).delete()
   return redirect("webteams:members") 
 
+
+def viewevent(request):
+  Etype=db.collection("tbl_Eventtype").stream()
+  Etype_data=[]
+  for i in Etype:
+    data=i.to_dict()
+    Etype_data.append({"Etype":i.to_dict(),"id":i.id})
+    result=[]
+    event_data=db.collection("tbl_event").stream()
+  for event in event_data:
+    event_dict=event.to_dict()
+    Etype=db.collection("tbl_Eventtype").document(event_dict["Eventtype_id"]).get().to_dict()
+    result.append({'Etypedata':Etype,'event_data':event_dict,'eventid':event.id})
+  return render(request,"Teams/ViewEvents.html",{"event_data":result})
+
+def Req(request,id):
+  req=db.collection("tbl_request").where("team_id","==",request.session["tid"]).stream()
+  req_data=[]
+  datedata = date.today()
+  data={"team_id":request.session["tid"],"organizer_id":request.session["oid"],"request_status":0,"request_date":str(datedata)}
+  db.collection("tbl_request").add(data)
+  return redirect("webteams:viewevent")

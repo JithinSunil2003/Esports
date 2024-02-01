@@ -137,3 +137,13 @@ def feedback(request):
 def delfeedback(request,id):
   db.collection("tbl_feedback").document(id).delete()
   return redirect("weborganizer:feedback")    
+
+def viewreq(request):
+  req=db.collection("tbl_request").stream()
+  req_data=[]
+  for i in req:
+    data=i.to_dict()
+    team = db.collection("tbl_teamreg").document(data["team_id"]).get().to_dict()
+    req_data.append({"view":data,"id":i.id,"team":team})
+  
+  return render(request,"Organizer/ViewRequest.html",{"view":req_data})

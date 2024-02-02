@@ -16,13 +16,14 @@
                 <td>Status</td>
                 <td>Action</td>
             </tr>
-            {% for i in view %}
+            {% for i in accept %}
             <tr>
-               <td>{{i.team.team_name}}</td>
-               <td>{{i.view.request_date}}</td>
-               <td>{{i.view.request_status}}</td>
-               <td><a href="{% url 'weborganizer:accepted' i.id %}">Accept</a>
-               <a href="{% url  'weborganizer:rejected' i.id %}">Reject</a></td>
+                <td>{{forloop.counter}}</td>
+               <td>{{i.team.team_name}}</td>    
+               <td>{{i.accept.request_date}}</td>
+               <td>{{i.accept.request_status}}</td>
+       
+               <td><a href="{% url  'weborganizer:rejected' i.id %}">Reject</a></td>
             </tr>
             {% endfor %}
         </table>

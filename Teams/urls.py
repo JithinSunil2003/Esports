@@ -17,4 +17,5 @@ urlpatterns = [
     path('delmembers/<str:id>',views.delmembers,name="delmembers"),
     path('ViewEvent/',views.viewevent,name="viewevent"),
     path('request/<str:id>',views.Req,name="Req"),
+    path('viewevent/',views.viewreq,name="viewreq")
 ]

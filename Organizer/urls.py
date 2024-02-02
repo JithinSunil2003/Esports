@@ -14,5 +14,9 @@ urlpatterns = [
     path('delcomplaint/<str:id>',views.delcomplaint,name="delcomplaint"),
     path('Feedback/',views.feedback,name="feedback"),
     path('delfeedback/<str:id>',views.delfeedback,name="delfeedback"),
-    path('viewreq/',views.viewreq,name='viewreq'),
+    path('viewreq/',views.viewreq,name="viewreq"),
+    path('accepted/<str:id>',views.accepted,name="accepted"),
+    path('rejected/<str:id>',views.rejected,name="rejected"),
+     path('acceptedlist/',views.acceptedlist,name="acceptedlist"),
+     path('rejectedlist/',views.rejectedlist,name="rejectedlist"),
 ]

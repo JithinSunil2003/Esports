@@ -139,7 +139,7 @@ def delfeedback(request,id):
   return redirect("weborganizer:feedback")    
 
 def viewreq(request):
-  req=db.collection("tbl_request").stream()
+  req=db.collection("tbl_request").where("request_status","==",0).stream()
   req_data=[]
   for i in req:
     data=i.to_dict()
@@ -147,3 +147,34 @@ def viewreq(request):
     req_data.append({"view":data,"id":i.id,"team":team})
   
   return render(request,"Organizer/ViewRequest.html",{"view":req_data})
+
+def accepted(request,id):
+  req=db.collection("tbl_request").document(id).update({"request_status":1})
+  return redirect("weborganizer:viewreq")
+
+def rejected(request,id):
+  req=db.collection("tbl_request").document(id).update({"request_status":2})
+  return redirect("weborganizer:viewreq")  
+
+
+def acceptedlist(request):
+  req=db.collection("tbl_request").where("request_status","==",1).stream()
+  req_data=[]
+  for i in req:
+    data=i.to_dict()
+    team = db.collection("tbl_teamreg").document(data["team_id"]).get().to_dict()
+    req_data.append({"accept":data,"id":i.id,"team":team})
+  return render(request,"Organizer/AcceptedList.html",{"accept":req_data})
+  
+
+
+def rejectedlist(request):
+  req=db.collection("tbl_request").where("request_status","==",2).stream()
+  req_data=[]
+  for i in req:
+    data=i.to_dict()
+    team = db.collection("tbl_teamreg").document(data["team_id"]).get().to_dict()
+    req_data.append({"reject":data,"id":i.id,"team":team})
+  return render(request,"Organizer/RejectedList.html",{"reject":req_data})
+  
+  

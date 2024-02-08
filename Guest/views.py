@@ -116,6 +116,7 @@ def login(request):
     organizerid = ""
     teamid =""
     userid=""
+    adminid=""
     if request.method == "POST":
         email = request.POST.get("email")
         password = request.POST.get("password")
@@ -123,6 +124,9 @@ def login(request):
             data = authe.sign_in_with_email_and_password(email,password)
         except:
             return render(request,"Guest/Login.html",{"msg":"Error in Email Or Password"})
+        admin=db.collection("tbl_admin").where("admin_id","==",data["localId"]).stream() 
+        for a in admin:
+            adminid=a.id   
         organizer = db.collection("tbl_orgreg").where("org_id", "==", data["localId"]).stream()
         for o in organizer:
             organizerid = o.id
@@ -135,10 +139,16 @@ def login(request):
         if organizerid:
             request.session["oid"] = organizerid
             return redirect("weborganizer:homepage")  
-        if teamid:
+        elif teamid:
             request.session["tid"]=teamid    
             return redirect("webteams:homepage")
-        if userid:
+        elif userid:
             request.session["uid"]=userid
             return redirect("webuser:homepage")   
-    return render(request,"Guest/Login.html")    
+        elif adminid:
+            request.session["aid"]=adminid 
+            return redirect("webadmin:homepage")  
+        else:
+            return render(request,"Guest/Login.html",{"msg":"error"})    
+    else:
+       return render(request,"Guest/Login.html")            

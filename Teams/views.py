@@ -159,6 +159,16 @@ def Req(request,id):
   req=db.collection("tbl_request").where("team_id","==",request.session["tid"]).stream()
   req_data=[]
   datedata = date.today()
-  data={"team_id":request.session["tid"],"organizer_id":request.session["oid"],"request_status":0,"request_date":str(datedata)}
+  data={"event_id":id,"team_id":request.session["tid"],"request_status":0,"request_date":str(datedata)}
   db.collection("tbl_request").add(data)
   return redirect("webteams:viewevent")
+
+def viewreq(request):
+  req=db.collection("tbl_request").stream()
+  req_data=[]
+  for i in req:
+    data=i.to_dict()
+    event = db.collection("tbl_event").document(data["event_id"]).get().to_dict()
+    req_data.append({"view":data,"id":i.id,"event":event})
+  return render(request,"Teams//ViewRequest.html",{"view":req_data})
+  

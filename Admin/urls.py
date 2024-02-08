@@ -14,7 +14,8 @@ urlpatterns = [
         path('deleventtype/<str:id>',views.deleventtype,name="deleventtype"),
         path('editeventtype/<str:id>',views.editeventtype,name="editeventtype"),
        
-        
+        path('Admin/',views.admin,name="admin"),
+        path('Homepage/',views.homepage,name="homepage"),
         
 
 ]

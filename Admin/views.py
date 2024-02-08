@@ -6,6 +6,21 @@ import pyrebase
 
 db=firestore.client()
 
+config = {
+  "apiKey": "AIzaSyDVNLi8RAAcmPeKJlQXf0e4YsEzrp4F7Cs",
+  "authDomain": "esports-80872.firebaseapp.com",
+  "projectId": "esports-80872",
+  "storageBucket": "esports-80872.appspot.com",
+  "messagingSenderId": "611016670354",
+  "appId": "1:611016670354:web:db3c9b9ca29dc66505ba4b",
+  "measurementId": "G-32X3NGQWCJ",
+  "databaseURL" : ""
+}
+
+firebase = pyrebase.initialize_app(config)
+authe = firebase.auth()
+
+
 # Create your views here.
 def district(request):
     dis=db.collection("tbl_district").stream()
@@ -103,6 +118,19 @@ def editeventtype(request,id):
     else:
         return render(request,"Admin/Eventtype.html",{"Etype_data":Etype})
 
+def admin(request):
+    if request.method =="POST":
+        email = request.POST.get("email")
+        password = request.POST.get("password")
+        try:
+            admin = firebase_admin.auth.create_user(email=email,password=password)
+        except (firebase_admin._auth_utils.EmailAlreadyExistsError,ValueError) as error:
+            return render(request,"Admin/Admin.html",{"msg":error})
+        db.collection("tbl_admin").add({"admin_id":admin.aid,"admin_name":request.POST.get("name"),"admin_contact":request.POST.get("contact"),"admin_email":request.POST.get("email")})    
+        return render(request,"Admin/Admin.html")
+    else:
+        return render(request,"Admin/Admin.html")
 
 
-
+def homepage(request):
+    return render(request,"Admin/Homepage.html")

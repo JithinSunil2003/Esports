@@ -8,11 +8,22 @@
 <body>
     <form action="" method="post">
         <table>
-            <td>Name</td>
-            <td>Description</td>
-            <td>Status</td>
-            <td></td>
-        </table>
+            <tr>
+
+                <td>Name</td>
+                <td>Description</td>
+                <td>Status</td>
+                <td></td>
+            </tr>
+            {% for i in view %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{i.event.event_name}}</td>
+                <td>{{i.event.description}}</td>
+                <td>{{i.view.request_status}}</td>
+            </tr>
+            {%  endfor %}
+            </table>
        
     </form>
 </body>

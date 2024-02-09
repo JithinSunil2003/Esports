@@ -11,5 +11,6 @@ urlpatterns = [
     path('delcomplaint/<str:id>',views.delcomplaint,name="delcomplaint"),
     path('Feedback/',views.feedback,name="feedback"),
     path('delfeedback/<str:id>',views.delfeedback,name="delfeedback"),
+    path('ViewTeams/',views.viewteams,name="viewteams")
    
 ]

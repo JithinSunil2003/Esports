@@ -161,7 +161,13 @@ def Req(request,id):
   datedata = date.today()
   data={"event_id":id,"team_id":request.session["tid"],"request_status":0,"request_date":str(datedata)}
   db.collection("tbl_request").add(data)
-  
+  event = db.collection("tbl_event").document(id).get().to_dict()
+  count = int(event["event_count"])
+  if count == 0:
+    return render(request,"Teams/ViewEvents.html",{"msg":"No slot Avalible"})
+  else:
+    bal = count - 1
+    db.collection("tbl_event").document(id).update({"event_count":bal})
   return redirect("webteams:viewevent")
 
 def viewreq(request):

@@ -96,3 +96,6 @@ def delfeedback(request,id):
   return redirect("webuser:feedback")    
 
 
+def viewteams(request):
+  
+  return render(request,"User/ViewTeams.html")

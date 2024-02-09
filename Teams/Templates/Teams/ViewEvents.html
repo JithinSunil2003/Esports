@@ -21,5 +21,11 @@
         </div>
        
     </form>
+    {% if msg %}
+    <script>
+        alert("{{msg}}")
+        window.location = "{% url 'webteams:viewevent' %}"
+    </script>
+    {% endif %}
 </body>
 </html>

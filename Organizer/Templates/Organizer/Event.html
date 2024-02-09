@@ -29,6 +29,10 @@
                 <td><textarea name="description" id="" cols="30" rows="10">{{eventdata.description}}</textarea></td>
             </tr>
             <tr>
+                <td>Count</td>
+                <td><input type="number" name="count" id=""></td>
+            </tr>
+            <tr>
                 <td colspan="2" align="center"><input type="submit" value="Submit"><input type="reset" value="Reset"></td>
                 <td></td>
             </tr>
@@ -41,6 +45,7 @@
             <td>#</td>
             <td>Name</td>
             <td>Description</td>
+            <td>Count</td>
             <td>Action</td>
         </tr>
         {% for i in event_data %}
@@ -48,6 +53,7 @@
             <td>{{forloop.counter}}</td>
             <td>{{i.event_data.event_name}}</td>
             <td>{{i.event_data.description}}</td>
+            <td>{{i.event_data.event_count}}</td>
             <td><a href="{% url 'weborganizer:editevent' i.eventid %}">Edit</a></td>
             <td><a href="{% url 'weborganizer:delevent' i.eventid %}">Delete</a></td>
             

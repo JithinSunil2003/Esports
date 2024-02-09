@@ -142,13 +142,13 @@ def delmembers(request,id):
 
 
 def viewevent(request):
-  Etype=db.collection("tbl_Eventtype").stream()
+  Etype=db.collection("tbl_Eventtype").where("team_id","==",request.session["tid"]).stream()
   Etype_data=[]
   for i in Etype:
     data=i.to_dict()
     Etype_data.append({"Etype":i.to_dict(),"id":i.id})
-    result=[]
-    event_data=db.collection("tbl_event").stream()
+  result=[]
+  event_data=db.collection("tbl_event").stream()
   for event in event_data:
     event_dict=event.to_dict()
     Etype=db.collection("tbl_Eventtype").document(event_dict["Eventtype_id"]).get().to_dict()
@@ -161,6 +161,7 @@ def Req(request,id):
   datedata = date.today()
   data={"event_id":id,"team_id":request.session["tid"],"request_status":0,"request_date":str(datedata)}
   db.collection("tbl_request").add(data)
+  
   return redirect("webteams:viewevent")
 
 def viewreq(request):

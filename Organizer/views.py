@@ -72,7 +72,7 @@ def event(request):
     Etype_dict=Etype.to_dict()
     result.append({'Etypedata':Etype_dict,'event_data':event_dict,'eventid':event.id})
   if request.method=="POST":
-    data={"organizer_id":request.session["oid"],"event_name":request.POST.get("ename"),"Eventtype_id":request.POST.get("etype"),"description":request.POST.get("description")}
+    data={"organizer_id":request.session["oid"],"event_name":request.POST.get("ename"),"Eventtype_id":request.POST.get("etype"),"description":request.POST.get("description"),"event_count":request.POST.get("count")}
     db.collection("tbl_event").add(data)
     return redirect("weborganizer:event")
   else:
@@ -88,7 +88,7 @@ def editevent(request,id):
         Etype_data.append({"Etype":i.to_dict(),"id":i.id})
     event_data=db.collection("tbl_event").document(id).get().to_dict()
     if request.method=="POST":
-       event_data={"event_name":request.POST.get("ename"),"Eventtype_id":request.POST.get("etype"),"description":request.POST.get("description")}
+       event_data={"event_name":request.POST.get("ename"),"Eventtype_id":request.POST.get("etype"),"description":request.POST.get("description"),"event_count":request.POST.get("count")}
        db.collection("tbl_event").document(id).update(event_data)
        return redirect("weborganizer:event")
     else:

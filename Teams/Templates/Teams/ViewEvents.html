@@ -13,6 +13,8 @@
             <div>Event Type:{{i.Etypedata.Event_type}}</div>
             <div>Name:{{i.event_data.event_name}}</div>
             <div>Description:{{i.event_data.description}}</div>
+            <div>Slots Remaining:{{i.event_data.event_count}}</div>
+          
             <div><a href="{% url 'webteams:Req' i.eventid %}">Request</a></div>
 
             {% endfor %}

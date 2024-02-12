@@ -8,21 +8,15 @@
 <body>
     <form action="" method="post">
         {% csrf_token %}
-       <table>
-        <tr>
-            <td>Photo</td>
-            <td>Name</td>
-            <td>Contact</td>
-            <td>Address</td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-       </table>
+        <div>
+            {%  for i in team %}
+            <div>Photo: <img src="{{i.team.team_photo}}" alt=""></div>
+            <div>Name:{{i.team.team_name}}</div>
+            <div>Address:{{i.team.team_address}}</div>
+            <div>Email:{{i.team.team_email}}</div>
+            <div>Contact:{{i.team.team_contact}}</div>
+            {% endfor %}
+        </div>
     </form>
 </body>
 </html>

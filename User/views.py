@@ -97,5 +97,11 @@ def delfeedback(request,id):
 
 
 def viewteams(request):
+  team=db.collection("tbl_teamreg").stream()
+  team_data=[]
+  for i in team:
+    data=i.to_dict
+    team_data.append({"team":data,"id":i.id})
+  return render(request,"User/ViewTeams.html",{"team":team_data})
+
   
-  return render(request,"User/ViewTeams.html")

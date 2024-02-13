@@ -104,4 +104,10 @@ def viewteams(request):
     team_data.append({"team":data,"id":i.id})
   return render(request,"User/ViewTeams.html",{"team":team_data})
 
-  
+def memberreq(request,id):
+  team=db.collection("tbl_teamreg").where("user_id","==",request.session["uid"]).stream()
+  team_data=[]
+  datedata = date.today()
+  data={"team_id":request.session["tid"],"member_request_status":0,"user_id":request.session["uid"],"member_request_date":str(datedata)}
+  db.collection("tbl_memberreq").add(data)
+  return redirect("webuser:viewteams")

@@ -15,6 +15,7 @@
             <div>Address:{{i.team.team_address}}</div>
             <div>Email:{{i.team.team_email}}</div>
             <div>Contact:{{i.team.team_contact}}</div>
+            <div><a href="{% url 'webuser:memberreq' i.id %}">Request</a></div>
             {% endfor %}
         </div>
     </form>

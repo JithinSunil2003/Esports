@@ -158,7 +158,7 @@ def viewevent(request):
 def Req(request,id):
   req=db.collection("tbl_request").where("team_id","==",request.session["tid"]).stream()
   req_data=[]
-  datedata = date.today()
+  datedata = date.today() 
   data={"event_id":id,"team_id":request.session["tid"],"request_status":0,"request_date":str(datedata)}
   db.collection("tbl_request").add(data)
   event = db.collection("tbl_event").document(id).get().to_dict()
@@ -177,5 +177,14 @@ def viewreq(request):
     data=i.to_dict()
     event = db.collection("tbl_event").document(data["event_id"]).get().to_dict()
     req_data.append({"view":data,"id":i.id,"event":event})
-  return render(request,"Teams//ViewRequest.html",{"view":req_data})
-  
+  return render(request,"Teams/ViewRequest.html",{"view":req_data})
+
+
+def viewmemreq(request):
+  memreq=db.collection("tbl_memberreq").stream()
+  memreq_data=[]
+  for i in memreq:
+    data=i.to_dict()
+    user=db.collection("tbl_user").document(data["user_id"]).get().to_dict()
+    memreq_data.append({"view":data,"id":i.id,"user":user})
+    return render(request,"Teams/MemberRequest.html",{"view":memreq_data})

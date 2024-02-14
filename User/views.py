@@ -111,3 +111,8 @@ def memberreq(request,id):
   data={"team_id":request.session["tid"],"member_request_status":0,"user_id":request.session["uid"],"member_request_date":str(datedata)}
   db.collection("tbl_memberreq").add(data)
   return redirect("webuser:viewteams")
+
+
+def myreq(request):
+  
+  return render(request,"User/MyRequest.html")  

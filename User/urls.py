@@ -12,6 +12,7 @@ urlpatterns = [
     path('Feedback/',views.feedback,name="feedback"),
     path('delfeedback/<str:id>',views.delfeedback,name="delfeedback"),
     path('ViewTeams/',views.viewteams,name="viewteams"),
-    path('memberreq/<str:id>',views.memberreq,name="memberreq")
+    path('memberreq/<str:id>',views.memberreq,name="memberreq"),
+    path('myrequest/',views.myreq,name="myreq")
    
 ]

@@ -181,10 +181,42 @@ def viewreq(request):
 
 
 def viewmemreq(request):
-  memreq=db.collection("tbl_memberreq").stream()
+  memreq=db.collection("tbl_memberreq").where("member_request_status","==",0).stream()
+  memreq_data=[]
+
+  for i in memreq:
+    data=i.to_dict()
+    user=db.collection("tbl_userreg").document(data["user_id"]).get().to_dict()
+    memreq_data.append({"view":data,"id":i.id,"user":user})
+  return render(request,"Teams/MemberRequest.html",{"view":memreq_data})
+
+def accept(request,id):
+  req=db.collection("tbl_memberreq").document(id).update({"member_request_status":1})
+  return redirect("webteams:viewmemreq")  
+
+
+def reject(request,id):
+  req=db.collection("tbl_memberreq").document(id).update({"member_request_status":2})
+  return redirect("webteams:viewmemreq") 
+
+def accepted(request):
+  memreq=db.collection("tbl_memberreq").where("member_request_status","==",1).stream()
   memreq_data=[]
   for i in memreq:
     data=i.to_dict()
-    user=db.collection("tbl_user").document(data["user_id"]).get().to_dict()
+    user=db.collection("tbl_userreg").document(data["user_id"]).get().to_dict()
     memreq_data.append({"view":data,"id":i.id,"user":user})
-    return render(request,"Teams/MemberRequest.html",{"view":memreq_data})
+    return redirect("webteams:rejected")
+  return render(request,"Teams/Accepted.html",{"view":memreq_data})
+
+  
+
+def rejected(request):
+  memreq=db.collection("tbl_memberreq").where("request_status","==",2).stream()
+  memreq_data=[]
+  for i in memreq:
+    data=i.to_dict()
+    user=db.collection("tbl_userreg").document(data["user_id"]).get().to_dict()
+    memreq_data.append({"view":data,"id":i.id,"user":user})
+    return redirect("webteams:accepted")
+  return render(request,"Teams/Rejected.html",{"view":memreq_data})

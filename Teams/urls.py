@@ -19,4 +19,8 @@ urlpatterns = [
     path('request/<str:id>',views.Req,name="Req"),
     path('viewrequest/',views.viewreq,name="viewreq"),
     path('viewmemreq/',views.viewmemreq,name="viewmemreq"),
+    path('accept/<str:id>',views.accept,name="accept"),
+    path('reject/<str:id>',views.reject,name="reject"),
+    path('accepted/',views.accepted,name="accepted"),
+    path('rejected/',views.rejected,name="rejected")
 ]

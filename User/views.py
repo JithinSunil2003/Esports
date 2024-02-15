@@ -114,5 +114,13 @@ def memberreq(request,id):
 
 
 def myreq(request):
+  memreq=db.collection("tbl_memberreq").where("user_id","==",request.session["uid"]).stream()
+  memreq_data=[]
+  for i in memreq:
+    data=i.to_dict()
+    team=db.collection("tbl_teamreg").document(data["team_id"]).get().to_dict()
+    memreq_data.append({"view":data,"id":i.id,"team":team})
+   
+  return render(request,"User/MyRequest.html",{"view":memreq_data})
   
-  return render(request,"User/MyRequest.html")  
+ 

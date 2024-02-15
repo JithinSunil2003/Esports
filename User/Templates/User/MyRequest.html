@@ -10,6 +10,7 @@
         {% csrf_token %}
         <table>
             <tr>
+                <td>#</td>
                 <td>Photo</td>
                 <td>Name</td>
                 <td>Address</td>
@@ -17,14 +18,17 @@
                 <td>Contact</td>
                 <td>Status</td>
             </tr>
+            {% for i in view %}
             <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td>{{forloop.counter}}</td>
+                <td><img src="{{i.team.team_photo}}" width="100" height="100" alt=""></td>
+                <td>{{i.team.team_name}}</td>
+                <td>{{i.team.team_address}}</td>
+                <td>{{i.team.team_email}}</td>
+                <td>{{i.team.team_contact}}</td>
                 <td></td>
             </tr>
+            {% endfor %}
         </table>
     </form>
 </body>

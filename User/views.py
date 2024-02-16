@@ -120,7 +120,7 @@ def myreq(request):
     data=i.to_dict()
     team=db.collection("tbl_teamreg").document(data["team_id"]).get().to_dict()
     memreq_data.append({"view":data,"id":i.id,"team":team})
-   
+    
   return render(request,"User/MyRequest.html",{"view":memreq_data})
   
  

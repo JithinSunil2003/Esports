@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="" method="post">
+        {% csrf_token %}
+    <table>
+        <tr>
+            <td>#</td>
+           <td>Name</td>
+           <td>Content</td>
+           <td>Action</td> 
+        </tr>
+        {% for i in com %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{i.user.user_name}}</td>
+            <td>{{i.com.complaint_content}}</td>
+            <td></td>
+        </tr>
+        {% endfor %}
+    </table>
+    </form>
+</body>
+</html>

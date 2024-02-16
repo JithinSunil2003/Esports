@@ -16,6 +16,7 @@ urlpatterns = [
        
         path('Admin/',views.admin,name="admin"),
         path('Homepage/',views.homepage,name="homepage"),
+        path('ViewComplaint/',views.viewcomplaint,name="viewcomplaint")
         
 
 ]

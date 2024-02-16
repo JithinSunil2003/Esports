@@ -26,10 +26,18 @@
                 <td>{{i.team.team_address}}</td>
                 <td>{{i.team.team_email}}</td>
                 <td>{{i.team.team_contact}}</td>
-                <td></td>
+                <td>{% if i.view.member_request_status == 1 %}
+                    Approved
+                    {% elif i.view.member_request_status == 2 %}
+                    Rejected
+                    {% else %}
+                    Pending
+                    {% endif %}
+                </td>
             </tr>
-            {% endfor %}
+            {% endfor %}    
         </table>
     </form>
+    
 </body>
 </html>

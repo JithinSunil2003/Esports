@@ -135,3 +135,13 @@ def admin(request):
 
 def homepage(request):
     return render(request,"Admin/Homepage.html")
+
+
+
+def viewcomplaint(request):
+    com=db.collection("tbl_complaint").where("complaint_status","==",0).stream()
+    com_data=[]
+    for i in com:
+       com_data.append({"com":i.to_dict,"id":i.id,"user":user}) 
+       User=db.collection("tbl_userreg").document(data["user_id"]).get().to_dict()
+    return render(request,"Admin/ViewComplaints.html",{"com":com_data})    

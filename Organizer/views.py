@@ -108,7 +108,7 @@ def complaint(request):
       com_data.append({"com":data,"id":i.id})
   if request.method=="POST":
       datedata = date.today()
-      data={"complaint_content":request.POST.get("content"),"organizer_id":request.session["oid"],"complaint_status":0,"complaint_date":str(datedata)}
+      data={"team_id":0,"user_id":0,"complaint_content":request.POST.get("content"),"organizer_id":request.session["oid"],"complaint_status":0,"complaint_date":str(datedata)}
       db.collection("tbl_complaint").add(data)
       return redirect("weborganizer:complaint")
   else:

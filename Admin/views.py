@@ -139,9 +139,26 @@ def homepage(request):
 
 
 def viewcomplaint(request):
-    com=db.collection("tbl_complaint").where("complaint_status","==",0).stream()
-    com_data=[]
-    for i in com:
-       com_data.append({"com":i.to_dict,"id":i.id,"user":user}) 
-       User=db.collection("tbl_userreg").document(data["user_id"]).get().to_dict()
-    return render(request,"Admin/ViewComplaints.html",{"com":com_data})    
+    user_data=[]
+    team_data=[]
+    team=db.collection("tbl_teamreg").stream()
+    for t in team:
+        com = db.collection("tbl_complaint").where("team_id", "==", t.id).where("complaint_status", "==", 0).stream()
+        for i in com:
+            team_data.append({"complaint":i.to_dict(),"id":i.id,"team":t.to_dict()})
+    user=db.collection("tbl_userreg").stream()
+    for u in user:
+        com=db.collection("tbl_complaint").where("user_id","==",u.id).where("complaint_status","==",0).stream()
+        for i in com:
+            user_data.append({"complaint":i.to_dict(),"id":i.id,"user":u.to_dict()})        
+    return render(request,"Admin/ViewComplaints.html",{"team":team_data,"user":user_data})    
+
+
+def reply(request,id):
+    if request.method == "POST":
+            db.collection("tbl_complaint").document(id).update({"complaint_reply":request.POST.get("reply"),"complaint_status":"1"})
+            return render(request,"Admin/Reply.html",{"msg":"Reply Sended..."})
+    return render(request,"Admin/Reply.html")    
+
+def viewfeedback(request):
+    return render(request,"Admin/ViewFeedback.html")

@@ -161,4 +161,23 @@ def reply(request,id):
     return render(request,"Admin/Reply.html")    
 
 def viewfeedback(request):
-    return render(request,"Admin/ViewFeedback.html")
+    organizer_data=[]
+    user_data=[]
+    team_data=[]
+    team=db.collection("tbl_teamreg").stream()
+    for t in team:
+        feed = db.collection("tbl_feedback").where("team_id", "==", t.id).stream()
+        for i in feed:
+            team_data.append({"feedback":i.to_dict(),"id":i.id,"team":t.to_dict()})
+    user=db.collection("tbl_userreg").stream()
+    for u in user:
+        feed=db.collection("tbl_feedback").where("user_id","==",u.id).stream()
+        for i in feed:
+            user_data.append({"feedback":i.to_dict(),"id":i.id,"user":u.to_dict()})
+    organizer=db.collection("tbl_orgnizer").stream()
+    for o in organizer:
+        feed=db.collection("tbl_feedback").where("organizer_id","==",o.id).stream()
+        for i in feed:
+            organizer_data.append({"feedback":i.to_dict(),"id":i.id,"organizer":o.to_dict()})            
+    return render(request,"Admin/ViewFeedback.html",{"team":team_data,"user":user_data,"organizer":organizer})
+    

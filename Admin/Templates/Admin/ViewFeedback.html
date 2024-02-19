@@ -6,6 +6,25 @@
     <title>Document</title>
 </head>
 <body>
-    
+    <form action="" method="post">
+        {% csrf_token %}
+    <table>
+       
+        <tr>
+            <td>#</td>
+            <td>User Name</td>
+            <td>Content</td>
+        
+        </tr>
+        {% for i in user %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{i.user.user_name}}</td>
+            <td>{{i.feedback.feedback_content}}</td>
+            
+            
+        </tr>
+        {% endfor %}
+    </table>
 </body>
 </html>

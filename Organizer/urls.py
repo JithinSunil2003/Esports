@@ -19,4 +19,5 @@ urlpatterns = [
     path('rejected/<str:id>',views.rejected,name="rejected"),
      path('acceptedlist/',views.acceptedlist,name="acceptedlist"),
      path('rejectedlist/',views.rejectedlist,name="rejectedlist"),
+     path('schedule/',views.schedule,name="schedule"),
 ]

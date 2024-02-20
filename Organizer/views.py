@@ -177,4 +177,5 @@ def rejectedlist(request):
     req_data.append({"reject":data,"id":i.id,"team":team})
   return render(request,"Organizer/RejectedList.html",{"reject":req_data})
   
-  
+def schedule(request):
+  return render(request,"Organizer/Schedule.html")  

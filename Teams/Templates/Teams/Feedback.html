@@ -30,11 +30,11 @@
             
             <td>Action</td>
         </tr>
-        {% for i in com %}
+        {% for i in feed %}
         <tr>
            <td>{{forloop.counter}}</td>
-           <td>{{i.com.complaint_content}}</td>
-           <td><a href="{% url 'webteam:delcomplaint' i.id %}">Delete</a></td>
+           <td>{{i.feed.feedback_content}}</td>
+           <td><a href="{% url 'webteams:delfeedback' i.id %}">Delete</a></td>
             
         </tr>
         {% endfor %}

@@ -26,5 +26,41 @@
         </tr>
         {% endfor %}
     </table>
+    <table>
+       
+        <tr>
+            <td>#</td>
+            <td>Team Name</td>
+            <td>Content</td>
+        
+        </tr>
+        {% for i in team %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{i.team.team_name}}</td>
+            <td>{{i.feedback.feedback_content}}</td>
+            
+            
+        </tr>
+        {% endfor %}
+    </table>
+    <table>
+       
+        <tr>
+            <td>#</td>
+            <td>Organizer Name</td>
+            <td>Content</td>
+        
+        </tr>
+        {% for i in organizer %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{i.organizer.organizer_name}}</td>
+            <td>{{i.feedback.feedback_content}}</td>
+            
+            
+        </tr>
+        {% endfor %}
+    </table>
 </body>
 </html>

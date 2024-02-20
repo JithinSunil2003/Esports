@@ -6,9 +6,10 @@
     <title>Document</title>
 </head>
 <body>
-    
+    <a href="{% url 'weborganizer:event' %}">Event</a>
+    <a href="{% url 'weborganizer:viewreq' %}">View Request</a>
 </body>
-{% if msg %}
+{% if msg %}s
 <script>
     alert("The Password Reset Link Is sented to {{msg}}")
     window.location = "{% url 'weborganizer:homepage' %}"

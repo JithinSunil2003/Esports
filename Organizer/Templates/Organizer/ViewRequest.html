@@ -18,6 +18,7 @@
             </tr>
             {% for i in view %}
             <tr>
+                <td>{{forloop.counter}}</td>
                <td>{{i.team.team_name}}</td>
                <td>{{i.view.request_date}}</td>
                <td>{{i.view.request_status}}</td>

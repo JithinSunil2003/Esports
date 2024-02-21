@@ -22,5 +22,9 @@ urlpatterns = [
     path('accept/<str:id>',views.accept,name="accept"),
     path('reject/<str:id>',views.reject,name="reject"),
     path('accepted/',views.accepted,name="accepted"),
-    path('rejected/',views.rejected,name="rejected")
+    path('rejected/',views.rejected,name="rejected"),
+    path('chat/<str:id>',views.chat,name="chat"),
+    path('ajaxchat/',views.ajaxchat,name="ajaxchat"),
+    path('ajaxchatview/',views.ajaxchatview,name="ajaxchatview"),
+    path('clearchat/',views.clearchat,name="clearchat"),
 ]

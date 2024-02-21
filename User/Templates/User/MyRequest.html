@@ -27,7 +27,7 @@
                 <td>{{i.team.team_email}}</td>
                 <td>{{i.team.team_contact}}</td>
                 <td>{% if i.view.member_request_status == 1 %}
-                    Approved
+                    Approved | <a href="{% url 'webuser:chat' i.view.team_id %}">Chat</a>
                     {% elif i.view.member_request_status == 2 %}
                     Rejected
                     {% else %}

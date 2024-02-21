@@ -140,7 +140,7 @@ def login(request):
             request.session["oid"] = organizerid
             return redirect("weborganizer:homepage")  
         elif teamid:
-            request.session["tid"]=teamid    
+            request.session["teamid"]=teamid    
             return redirect("webteams:homepage")
         elif userid:
             request.session["uid"]=userid

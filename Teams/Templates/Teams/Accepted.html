@@ -25,7 +25,7 @@
                 <td>{{i.user.user_contact}}</td>
                 <td>{{i.user.user_email}}</td>
                 <td>{{i.view.member_request_status}}</td>
-                <td><a href="{% url 'webteams:reject' i.id %}">Reject</a></td>
+                <td><a href="{% url 'webteams:reject' i.id %}">Reject</a> | <a href="{% url 'webteams:chat' i.view.user_id %}">Chat</a></td>
              
             </tr>
             {% endfor %}

@@ -5,7 +5,7 @@ import pyrebase
 from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib import messages
-from datetime import date
+from datetime import date,datetime
 
 
 db=firestore.client()
@@ -34,21 +34,21 @@ def homepage(request):
 
 
 def Myprofile (request):
-    team = db.collection("tbl_teamreg").document(request.session["tid"]).get().to_dict()
+    team = db.collection("tbl_teamreg").document(request.session["teamid"]).get().to_dict()
     return render(request,"Teams/Myprofile.html",{"team":team})
 
 def Editprofile(request):
-  team = db.collection("tbl_teamreg").document(request.session["tid"]).get().to_dict()
+  team = db.collection("tbl_teamreg").document(request.session["teamid"]).get().to_dict()
   if request.method=="POST":
     data={"team_name":request.POST.get("name"),"team_contact":request.POST.get("contact"),"team_address":request.POST.get("address")}
-    db.collection("tbl_teamreg").document(request.session["tid"]).update(data)
+    db.collection("tbl_teamreg").document(request.session["teamid"]).update(data)
     return redirect("webteams:Myprofile")
   else:
     return render(request,"Teams/EditProfile.html",{"team":team})  
 
 
 def changepassword(request):
-  organizer = db.collection("tbl_teamreg").document(request.session["tid"]).get().to_dict()
+  organizer = db.collection("tbl_teamreg").document(request.session["teamid"]).get().to_dict()
   email = organizer["team_email"]
   password_link = firebase_admin.auth.generate_password_reset_link(email) 
   send_mail(
@@ -61,7 +61,7 @@ def changepassword(request):
 
 def complaint(request):
   if 'tid' in request.session:
-    com=db.collection("tbl_complaint").where("team_id","==",request.session["tid"]).stream()
+    com=db.collection("tbl_complaint").where("team_id","==",request.session["teamid"]).stream()
     com_data=[]
   for i in com:
       data=i.to_dict()
@@ -80,13 +80,13 @@ def delcomplaint(request,id):
   return redirect("webteams:complaint")  
 
 def feedback(request):
-  feed=db.collection("tbl_feedback").where("team_id","==",request.session["tid"]).stream()
+  feed=db.collection("tbl_feedback").where("team_id","==",request.session["teamid"]).stream()
   feed_data=[]
   for i in feed:
       data=i.to_dict
       feed_data.append({"feed":data,"id":i.id})
   if request.method=="POST":
-    data={"feedback_content":request.POST.get("content"),"team_id":request.session["tid"]}
+    data={"feedback_content":request.POST.get("content"),"team_id":request.session["teamid"]}
     db.collection("tbl_feedback").add(data)
     return redirect("webteams:feedback")
   else:
@@ -156,7 +156,7 @@ def viewevent(request):
   return render(request,"Teams/ViewEvents.html",{"event_data":result})
 
 def Req(request,id):
-  req=db.collection("tbl_request").where("team_id","==",request.session["tid"]).stream()
+  req=db.collection("tbl_request").where("team_id","==",request.session["teamid"]).stream()
   req_data=[]
   datedata = date.today() 
   data={"event_id":id,"team_id":request.session["tid"],"request_status":0,"request_date":str(datedata)}
@@ -206,7 +206,6 @@ def accepted(request):
     data=i.to_dict()
     user=db.collection("tbl_userreg").document(data["user_id"]).get().to_dict()
     memreq_data.append({"view":data,"id":i.id,"user":user})
-    return redirect("webteams:rejected")
   return render(request,"Teams/Accepted.html",{"view":memreq_data})
 
   
@@ -218,5 +217,42 @@ def rejected(request):
     data=i.to_dict()
     user=db.collection("tbl_userreg").document(data["user_id"]).get().to_dict()
     memreq_data.append({"view":data,"id":i.id,"user":user})
-    return redirect("webteams:accepted")
   return render(request,"Teams/Rejected.html",{"view":memreq_data})
+
+def chat(request,id):
+    to_user = db.collection("tbl_user").document(id).get().to_dict()
+    return render(request,"Teams/Chat.html",{"user":to_user,"tid":id})
+
+def ajaxchat(request):
+    image = request.FILES.get("file")
+    tid = request.POST.get("tid")
+    if image:
+        path = "ChatFiles/" + image.name
+        sd.child(path).put(image)
+        d_url = sd.child(path).get_url(None)
+        db.collection("tbl_chat").add({"chat_content":"","chat_time":datetime.now(),"team_from":request.session["teamid"],"user_to":request.POST.get("tid"),"chat_file":d_url,"user_from":"","team_to":""})
+        return render(request,"Teams/Chat.html",{"tid":tid})
+    else:
+        db.collection("tbl_chat").add({"chat_content":request.POST.get("msg"),"chat_time":datetime.now(),"team_from":request.session["teamid"],"user_to":request.POST.get("tid"),"chat_file":"","user_from":"","team_to":""})
+        return render(request,"Teams/Chat.html",{"tid":tid})
+
+def ajaxchatview(request):
+    tid = request.GET.get("tid")
+    user_ref = db.collection("tbl_chat")
+    chat = db.collection("tbl_chat").order_by("chat_time").stream()
+    data = []
+    for c in chat:
+        cdata = c.to_dict()
+        if ((cdata["team_from"] == request.session["teamid"]) | (cdata["team_to"] == request.session["teamid"])) & ((cdata["user_from"] == tid) | (cdata["user_to"] == tid)):
+            data.append(cdata)
+    return render(request,"Teams/ChatView.html",{"data":data,"tid":tid})
+
+def clearchat(request):
+    toid = request.GET.get("tid")
+    chat_data1 = db.collection("tbl_chat").where("team_from", "==", request.session["teamid"]).where("user_to", "==", request.GET.get("tid")).stream()
+    for i1 in chat_data1:
+        i1.reference.delete()
+    chat_data2 = db.collection("tbl_chat").where("team_to", "==", request.session["teamid"]).where("user_from", "==", request.GET.get("tid")).stream()
+    for i2 in chat_data2:
+        i2.reference.delete()
+    return render(request,"Teams/ClearChat.html",{"msg":"Chat Cleared Sucessfully....."})

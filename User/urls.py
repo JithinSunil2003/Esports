@@ -13,6 +13,9 @@ urlpatterns = [
     path('delfeedback/<str:id>',views.delfeedback,name="delfeedback"),
     path('ViewTeams/',views.viewteams,name="viewteams"),
     path('memberreq/<str:id>',views.memberreq,name="memberreq"),
-    path('myrequest/',views.myreq,name="myreq")
-   
+    path('myrequest/',views.myreq,name="myreq"),
+    path('chat/<str:id>',views.chat,name="chat"),
+    path('ajaxchat/',views.ajaxchat,name="ajaxchat"),
+    path('ajaxchatview/',views.ajaxchatview,name="ajaxchatview"),
+    path('clearchat/',views.clearchat,name="clearchat"),
 ]

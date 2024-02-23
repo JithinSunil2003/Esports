@@ -347,8 +347,8 @@
         var fileInput = document.getElementById("photo_data");
         var file = fileInput.files[0];
         var fd = new FormData()
-        if (msg != "")
-        {
+        // if (msg != "")
+        // {
             fd.append("file",file)
             fd.append("tid",tid)
             fd.append("msg",msg)
@@ -370,7 +370,7 @@
                     element.scrollTop = element.scrollHeight - element.clientHeight;
                 },
             });
-        }
+        // }
     };
 
     function scroll(){

@@ -228,13 +228,17 @@ def ajaxchat(request):
     tid = request.POST.get("tid")
     if image:
         path = "ChatFiles/" + image.name
-        sd.child(path).put(image)
-        d_url = sd.child(path).get_url(None)
+        st.child(path).put(image)
+        d_url = st.child(path).get_url(None)
         db.collection("tbl_chat").add({"chat_content":"","chat_time":datetime.now(),"team_from":request.session["teamid"],"user_to":request.POST.get("tid"),"chat_file":d_url,"user_from":"","team_to":""})
         return render(request,"Teams/Chat.html",{"tid":tid})
     else:
+      if request.POST.get("msg"):
         db.collection("tbl_chat").add({"chat_content":request.POST.get("msg"),"chat_time":datetime.now(),"team_from":request.session["teamid"],"user_to":request.POST.get("tid"),"chat_file":"","user_from":"","team_to":""})
         return render(request,"Teams/Chat.html",{"tid":tid})
+      else:
+        return render(request,"Teams/Chat.html",{"tid":tid})
+
 
 def ajaxchatview(request):
     tid = request.GET.get("tid")

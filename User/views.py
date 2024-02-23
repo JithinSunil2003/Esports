@@ -108,7 +108,7 @@ def memberreq(request,id):
   team=db.collection("tbl_teamreg").where("user_id","==",request.session["uid"]).stream()
   team_data=[]
   datedata = date.today()
-  data={"team_id":request.session["tid"],"member_request_status":0,"user_id":request.session["uid"],"member_request_date":str(datedata)}
+  data={"team_id":request.session["teamid"],"member_request_status":0,"user_id":request.session["uid"],"member_request_date":str(datedata)}
   db.collection("tbl_memberreq").add(data)
   return redirect("webuser:viewteams")
 
@@ -128,16 +128,21 @@ def chat(request,id):
 
 def ajaxchat(request):
     image = request.FILES.get("file")
+    print(image)
     tid = request.POST.get("tid")
     if image:
         path = "ChatFiles/" + image.name
-        sd.child(path).put(image)
-        d_url = sd.child(path).get_url(None)
+        st.child(path).put(image)
+        d_url = st.child(path).get_url(None)
         db.collection("tbl_chat").add({"chat_content":"","chat_time":datetime.now(),"user_from":request.session["uid"],"team_to":request.POST.get("tid"),"chat_file":d_url,"team_from":"","user_to":""})
         return render(request,"User/Chat.html",{"tid":tid})
     else:
+      if request.POST.get("msg"):
         db.collection("tbl_chat").add({"chat_content":request.POST.get("msg"),"chat_time":datetime.now(),"user_from":request.session["uid"],"team_to":request.POST.get("tid"),"chat_file":"","team_from":"","user_to":""})
         return render(request,"User/Chat.html",{"tid":tid})
+      else:
+        return render(request,"User/Chat.html",{"tid":tid})
+
 
 def ajaxchatview(request):
     tid = request.GET.get("tid")

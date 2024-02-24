@@ -10,6 +10,14 @@
         
         <table>
             <tr>
+                <td colspan="5" align="right">
+                    {% if event_count == 0 %}
+                      <a href="{% url 'weborganizer:schedule' %}">Schedule</a>
+                    
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
                 <td>#</td>
                 <td>Name</td>
                 <td>Date</td>
@@ -23,10 +31,6 @@
                <td>{{i.accept.request_date}}</td>
                <td>{{i.accept.request_status}}</td>
                <td><a href="{% url  'weborganizer:rejected' i.id %}">Reject</a></td>
-               <td>{% if i.accept.event_count == 0 %}
-                      <a href="{% url 'weborganizer:schedule' %}">Schedule</a>
-                    
-                    {% endif %}
                
             </tr>
             {% endfor %}

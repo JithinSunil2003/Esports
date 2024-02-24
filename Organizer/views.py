@@ -157,14 +157,16 @@ def rejected(request,id):
   return redirect("weborganizer:viewreq")  
 
 
-def acceptedlist(request):
-  req=db.collection("tbl_request").where("request_status","==",1).stream()
+def acceptedlist(request,id):
+  event = db.collection("tbl_event").document(id).get().to_dict()
+  event_count = event["event_count"]
+  req=db.collection("tbl_request").where("request_status","==",1).where("event_id","==",id).stream()
   req_data=[]
   for i in req:
     data=i.to_dict()
     team = db.collection("tbl_teamreg").document(data["team_id"]).get().to_dict()
     req_data.append({"accept":data,"id":i.id,"team":team})
-  return render(request,"Organizer/AcceptedList.html",{"accept":req_data})
+  return render(request,"Organizer/AcceptedList.html",{"accept":req_data,"event_count":event_count})
   
 
 

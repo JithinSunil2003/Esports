@@ -17,7 +17,7 @@ urlpatterns = [
     path('viewreq/',views.viewreq,name="viewreq"),
     path('accepted/<str:id>',views.accepted,name="accepted"),
     path('rejected/<str:id>',views.rejected,name="rejected"),
-    path('acceptedlist/',views.acceptedlist,name="acceptedlist"),
+    path('acceptedlist/<str:id>',views.acceptedlist,name="acceptedlist"),
     path('rejectedlist/',views.rejectedlist,name="rejectedlist"),
     path('schedule/',views.schedule,name="schedule"),
 ]

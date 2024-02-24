@@ -16,6 +16,7 @@
             <div>Slots Remaining:{{i.event_data.event_count}}</div>
           
             <div><a href="{% url 'webteams:Req' i.eventid %}">Request</a></div>
+            <div><a href="{% url 'webteams:orgchat' %}">Chat</a></div>
             
 
             {% endfor %}

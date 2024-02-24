@@ -6,7 +6,7 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="" method="post">
+<form action="" method="post">
         {% csrf_token %}
     <table>
        
@@ -47,6 +47,26 @@
         </tr>
         {% endfor %}
     </table>
-    </form>
+    <table>
+       
+        <tr>
+            <td>#</td>
+            <td>Organizer Name</td>
+            <td>Content</td>
+            <td>Date</td>
+            <td>Action</td>
+            
+        </tr>
+        {% for i in organizer %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{i.organizer.org_name}}</td>
+            <td>{{i.complaint.complaint_content}}</td>
+            <td>{{i.complaint.complaint_date}}</td>
+            <td><a href="{% url 'webadmin:reply' i.id%}">Reply</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+</form>
 </body>
 </html>

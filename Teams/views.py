@@ -60,9 +60,8 @@ def changepassword(request):
   return render(request,"Teams/Homepage.html",{"msg":email})
 
 def complaint(request):
-  if 'tid' in request.session:
-    com=db.collection("tbl_complaint").where("team_id","==",request.session["teamid"]).stream()
-    com_data=[]
+  com=db.collection("tbl_complaint").where("team_id","==",request.session["teamid"]).stream()
+  com_data=[]
   for i in com:
       data=i.to_dict()
       com_data.append({"com":data,"id":i.id})

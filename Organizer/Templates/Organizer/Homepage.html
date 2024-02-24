@@ -8,7 +8,11 @@
 <body>
     <a href="{% url 'weborganizer:event' %}">Event</a>
     <a href="{% url 'weborganizer:viewreq' %}">View Request</a>
-    <a href="{% url 'weborganizer:schedule' %}">Schedule</a>
+   
+    <a href="{% url 'weborganizer:acceptedlist' %}">Accepted</a>
+    <a href="{% url 'weborganizer:complaint' %}">complaint</a>
+    <a href="{% url 'weborganizer:feedback' %}">feedback</a>
+
 </body>
 {% if msg %}s
 <script>

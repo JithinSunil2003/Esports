@@ -139,19 +139,27 @@ def homepage(request):
 
 
 def viewcomplaint(request):
+    organizer_data=[]
     user_data=[]
     team_data=[]
-    team=db.collection("tbl_teamreg").stream()
-    for t in team:
-        com = db.collection("tbl_complaint").where("team_id", "==", t.id).where("complaint_status", "==", 0).stream()
-        for i in com:
-            team_data.append({"complaint":i.to_dict(),"id":i.id,"team":t.to_dict()})
-    user=db.collection("tbl_userreg").stream()
-    for u in user:
-        com=db.collection("tbl_complaint").where("user_id","==",u.id).where("complaint_status","==",0).stream()
-        for i in com:
-            user_data.append({"complaint":i.to_dict(),"id":i.id,"user":u.to_dict()})        
-    return render(request,"Admin/ViewComplaints.html",{"team":team_data,"user":user_data})    
+    tcom = db.collection("tbl_complaint").where("team_id", "!=",0).where("complaint_status", "==", 0).stream()
+    for i in tcom:
+        tdata = i.to_dict()
+        team = db.collection("tbl_teamreg").document(tdata["team_id"]).get().to_dict()
+        team_data.append({"complaint":i.to_dict(),"id":i.id,"team":team})
+
+    ucom=db.collection("tbl_complaint").where("user_id","!=",0).where("complaint_status","==",0).stream()
+    for i in ucom:
+        udata = i.to_dict()
+        user = db.collection("tbl_userreg").document(udata["user_id"]).get().to_dict()
+        user_data.append({"complaint":i.to_dict(),"id":i.id,"user":user}) 
+
+    ocom=db.collection("tbl_complaint").where("organizer_id","!=",0).where("complaint_status","==",0).stream()
+    for i in ocom:
+        odata = i.to_dict()
+        organizer = db.collection("tbl_orgreg").document(odata["organizer_id"]).get().to_dict()
+        organizer_data.append({"complaint":i.to_dict(),"id":i.id,"organizer":organizer}) 
+    return render(request,"Admin/ViewComplaints.html",{"team":team_data,"user":user_data,"organizer":organizer_data})    
 
 
 def reply(request,id):
@@ -164,20 +172,23 @@ def viewfeedback(request):
     organizer_data=[]
     user_data=[]
     team_data=[]
-    team=db.collection("tbl_teamreg").stream()
-    for t in team:
-        feed = db.collection("tbl_feedback").where("team_id", "==", t.id).stream()
-        for i in feed:
-            team_data.append({"feedback":i.to_dict(),"id":i.id,"team":t.to_dict()})
-    user=db.collection("tbl_userreg").stream()
-    for u in user:
-        feed=db.collection("tbl_feedback").where("user_id","==",u.id).stream()
-        for i in feed:
-            user_data.append({"feedback":i.to_dict(),"id":i.id,"user":u.to_dict()})
-    organizer=db.collection("tbl_orgnizer").stream()
-    for o in organizer:
-        feed=db.collection("tbl_feedback").where("organizer_id","==",o.id).stream()
-        for i in feed:
-            organizer_data.append({"feedback":i.to_dict(),"id":i.id,"organizer":o.to_dict()})            
-    return render(request,"Admin/ViewFeedback.html",{"team":team_data,"user":user_data,"organizer":organizer})
+    feed=db.collection("tbl_feedback").stream()
+    tfeed = db.collection("tbl_feedback").where("team_id", "!=",0).stream()
+    for i in tfeed:
+        tdata = i.to_dict()
+        team = db.collection("tbl_teamreg").document(tdata["team_id"]).get().to_dict()
+        team_data.append({"feedback":i.to_dict(),"id":i.id,"team":team})
+
+    ufeed=db.collection("tbl_feedback").where("user_id","!=",0).stream()
+    for i in ufeed:
+        udata = i.to_dict()
+        user = db.collection("tbl_userreg").document(udata["user_id"]).get().to_dict()
+        user_data.append({"feedback":i.to_dict(),"id":i.id,"user":user}) 
+
+    ofeed=db.collection("tbl_feedback").where("organizer_id","!=",0).stream()
+    for i in ofeed:
+        odata = i.to_dict()
+        organizer = db.collection("tbl_orgreg").document(odata["organizer_id"]).get().to_dict()
+        organizer_data.append({"feedback":i.to_dict(),"id":i.id,"organizer":organizer}) 
+    return render(request,"Admin/ViewFeedback.html",{"team":team_data,"user":user_data,"organizer":organizer_data}) 
     

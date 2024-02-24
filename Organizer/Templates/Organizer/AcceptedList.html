@@ -22,9 +22,12 @@
                <td>{{i.team.team_name}}</td>    
                <td>{{i.accept.request_date}}</td>
                <td>{{i.accept.request_status}}</td>
-       
                <td><a href="{% url  'weborganizer:rejected' i.id %}">Reject</a></td>
-               <td><a href="{% url 'weborganizer:chat' i.accept.team_id %}">Chat</a></td>
+               <td>{% if i.accept.event_count == 0 %}
+                      <a href="{% url 'weborganizer:schedule' %}">Schedule</a>
+                    
+                    {% endif %}
+               
             </tr>
             {% endfor %}
         </table>

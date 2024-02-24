@@ -24,6 +24,7 @@
                <td>{{i.accept.request_status}}</td>
        
                <td><a href="{% url  'weborganizer:rejected' i.id %}">Reject</a></td>
+               <td><a href="{% url 'weborganizer:chat' i.accept.team_id %}">Chat</a></td>
             </tr>
             {% endfor %}
         </table>

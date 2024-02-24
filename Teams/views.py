@@ -68,7 +68,7 @@ def complaint(request):
       com_data.append({"com":data,"id":i.id})
   if request.method=="POST":
       datedata = date.today()
-      data={"user_id":0,"organizer_id":0,"complaint_content":request.POST.get("content"),"team_id":request.session["tid"],"complaint_status":0,"complaint_date":str(datedata)}
+      data={"user_id":0,"organizer_id":0,"complaint_content":request.POST.get("content"),"team_id":request.session["teamid"],"complaint_status":0,"complaint_date":str(datedata)}
       db.collection("tbl_complaint").add(data)
       return redirect("webteams:complaint")
   else:
@@ -142,7 +142,7 @@ def delmembers(request,id):
 
 
 def viewevent(request):
-  Etype=db.collection("tbl_Eventtype").where("team_id","==",request.session["tid"]).stream()
+  Etype=db.collection("tbl_Eventtype").where("team_id","==",request.session["teamid"]).stream()
   Etype_data=[]
   for i in Etype:
     data=i.to_dict()
@@ -159,7 +159,7 @@ def Req(request,id):
   req=db.collection("tbl_request").where("team_id","==",request.session["teamid"]).stream()
   req_data=[]
   datedata = date.today() 
-  data={"event_id":id,"team_id":request.session["tid"],"request_status":0,"request_date":str(datedata)}
+  data={"organizer_id":request.session["oid"],"event_id":id,"team_id":request.session["teamid"],"request_status":0,"request_date":str(datedata)}
   db.collection("tbl_request").add(data)
   event = db.collection("tbl_event").document(id).get().to_dict()
   count = int(event["event_count"])

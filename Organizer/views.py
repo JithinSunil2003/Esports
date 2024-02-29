@@ -5,7 +5,7 @@ import pyrebase
 from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib import messages
-from datetime import date
+from datetime import date,datetime
 
 
 db=firestore.client()
@@ -181,3 +181,45 @@ def rejectedlist(request):
   
 def schedule(request):
   return render(request,"Organizer/Schedule.html")  
+
+##Chat
+def chat(request,id):
+    to_team = db.collection("tbl_teamreg").document(id).get().to_dict()
+    return render(request,"Organizer/Chat.html",{"user":to_team,"tid":id})
+
+def ajaxchat(request):
+    image = request.FILES.get("file")
+    tid = request.POST.get("tid")
+    if image:
+        path = "ChatFiles/" + image.name
+        st.child(path).put(image)
+        d_url = st.child(path).get_url(None)
+        db.collection("tbl_chat2").add({"chat_content":"","chat_time":datetime.now(),"org_from":request.session["oid"],"team_to":request.POST.get("tid"),"chat_file":d_url,"org_to":"","team_from":""})
+        return render(request,"Organizer/Chat.html",{"tid":tid})
+    else:
+      if request.POST.get("msg"):
+        db.collection("tbl_chat2").add({"chat_content":request.POST.get("msg"),"chat_time":datetime.now(),"org_from":request.session["oid"],"team_to":request.POST.get("tid"),"chat_file":"","org_to":"","team_from":""})
+        return render(request,"Organizer/Chat.html",{"tid":tid})
+      else:
+        return render(request,"Organizer/Chat.html",{"tid":tid})
+
+def ajaxchatview(request):
+    tid = request.GET.get("tid")
+    user_ref = db.collection("tbl_chat")
+    chat = db.collection("tbl_chat2").order_by("chat_time").stream()
+    data = []
+    for c in chat:
+        cdata = c.to_dict()
+        if ((cdata["org_from"] == request.session["oid"]) | (cdata["org_to"] == request.session["oid"])) & ((cdata["team_from"] == tid) | (cdata["team_to"] == tid)):
+            data.append(cdata)
+    return render(request,"Organizer/ChatView.html",{"data":data,"tid":tid})
+
+def clearchat(request):
+    toid = request.GET.get("tid")
+    chat_data1 = db.collection("tbl_chat2").where("org_from", "==", request.session["oid"]).where("team_to", "==", request.GET.get("tid")).stream()
+    for i1 in chat_data1:
+        i1.reference.delete()
+    chat_data2 = db.collection("tbl_chat2").where("team_to", "==", request.session["oid"]).where("team_from", "==", request.GET.get("tid")).stream()
+    for i2 in chat_data2:
+        i2.reference.delete()
+    return render(request,"Organizer/ClearChat.html",{"msg":"Chat Cleared Sucessfully....."})

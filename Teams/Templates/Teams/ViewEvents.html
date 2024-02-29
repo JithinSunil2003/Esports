@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        span {
+            color: red;
+        }
+    </style>
 </head>
 <body>
     <form action="" method="post">
@@ -13,10 +18,15 @@
             <div>Event Type:{{i.Etypedata.Event_type}}</div>
             <div>Name:{{i.event_data.event_name}}</div>
             <div>Description:{{i.event_data.description}}</div>
-            <div>Slots Remaining:{{i.event_data.event_count}}</div>
+            <!-- <div>Slots Remaining:{{i.event_data.event_count}}</div> -->
           
-            <div><a href="{% url 'webteams:Req' i.eventid %}">Request</a></div>
-            <div><a href="{% url 'webteams:orgchat' %}">Chat</a></div>
+            <div>
+                {% if i.event_data.event_count == 0 %}
+                <span>Slot Completed</span>
+                {% else %}
+                <a href="{% url 'webteams:Req' i.eventid %}">Request</a>
+                {% endif %}
+            </div>
             
 
             {% endfor %}

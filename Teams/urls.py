@@ -27,4 +27,9 @@ urlpatterns = [
     path('ajaxchat/',views.ajaxchat,name="ajaxchat"),
     path('ajaxchatview/',views.ajaxchatview,name="ajaxchatview"),
     path('clearchat/',views.clearchat,name="clearchat"),
+
+    path('chat2/<str:id>',views.chat2,name="chat2"),
+    path('ajaxchat2/',views.ajaxchat2,name="ajaxchat2"),
+    path('ajaxchatview2/',views.ajaxchatview2,name="ajaxchatview2"),
+    path('clearchat2/',views.clearchat2,name="clearchat2"),
 ]

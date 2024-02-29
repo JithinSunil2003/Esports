@@ -170,7 +170,7 @@ def Req(request,id):
   return redirect("webteams:viewevent")
 
 def viewreq(request):
-  req=db.collection("tbl_request").stream()
+  req=db.collection("tbl_request").where("team_id", "==", request.session["teamid"]).stream()
   req_data=[]
   for i in req:
     data=i.to_dict()
@@ -259,3 +259,46 @@ def clearchat(request):
     for i2 in chat_data2:
         i2.reference.delete()
     return render(request,"Teams/ClearChat.html",{"msg":"Chat Cleared Sucessfully....."})
+
+#################################################################################################################################
+
+def chat2(request,id):
+    to_org = db.collection("tbl_orgreg").document(id).get().to_dict()
+    return render(request,"Teams/Chat2.html",{"user":to_org,"tid":id})
+
+def ajaxchat2(request):
+    image = request.FILES.get("file")
+    print(image)
+    tid = request.POST.get("tid")
+    if image:
+        path = "ChatFiles/" + image.name
+        st.child(path).put(image)
+        d_url = st.child(path).get_url(None)
+        db.collection("tbl_chat2").add({"chat_content":"","chat_time":datetime.now(),"team_from":request.session["teamid"],"org_to":request.POST.get("tid"),"chat_file":d_url,"team_to":"","org_from":""})
+        return render(request,"Teams/Chat2.html",{"tid":tid})
+    else:
+      if request.POST.get("msg"):
+        db.collection("tbl_chat2").add({"chat_content":request.POST.get("msg"),"chat_time":datetime.now(),"team_from":request.session["teamid"],"org_to":request.POST.get("tid"),"chat_file":"","team_to":"","org_from":""})
+        return render(request,"Teams/Chat2.html",{"tid":tid})
+      else:
+        return render(request,"Teams/Chat2.html",{"tid":tid})
+
+def ajaxchatview2(request):
+    tid = request.GET.get("tid")
+    chat = db.collection("tbl_chat2").order_by("chat_time").stream()
+    data = []
+    for c in chat:
+        cdata = c.to_dict()
+        if ((cdata["team_from"] == request.session["teamid"]) | (cdata["team_to"] == request.session["teamid"])) & ((cdata["org_from"] == tid) | (cdata["org_to"] == tid)):
+            data.append(cdata)
+    return render(request,"Teams/ChatView2.html",{"data":data,"tid":tid})
+
+def clearchat2(request):
+    toid = request.GET.get("tid")
+    chat_data1 = db.collection("tbl_chat2").where("team_from", "==", request.session["teamid"]).where("org_to", "==", request.GET.get("tid")).stream()
+    for i1 in chat_data1:
+        i1.reference.delete()
+    chat_data2 = db.collection("tbl_chat2").where("team_to", "==", request.session["teamid"]).where("org_from", "==", request.GET.get("tid")).stream()
+    for i2 in chat_data2:
+        i2.reference.delete()
+    return render(request,"Teams/ClearChat2.html",{"msg":"Chat Cleared Sucessfully....."})

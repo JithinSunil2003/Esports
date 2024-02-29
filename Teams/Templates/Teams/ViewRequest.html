@@ -7,21 +7,30 @@
 </head>
 <body>
     <form action="" method="post">
-        <table>
+        <table cellpadding="10">
             <tr>
 
                 <td>#</td>
                 <td>Name</td>
                 <td>Description</td>
                 <td>Status</td>
-                <td></td>
+                <td>Action</td>
             </tr>
             {% for i in view %}
             <tr>
                 <td>{{forloop.counter}}</td>
                 <td>{{i.event.event_name}}</td>
                 <td>{{i.event.description}}</td>
-                <td>{{i.view.request_status}}</td>
+                <td>
+                    {% if i.view.request_status == 0 %}
+                    <span style="color: red;">Pending</span>
+                    {% elif i.view.request_status == 1 %}
+                    <span style="color: green;">Accept</span>
+                    {% else %}
+                    <span style="color: red;">Reject</span>
+                    {% endif %}
+                </td>
+                <td><a href="{% url 'webteams:chat2' i.event.organizer_id %}">Chat</a></td>
             </tr>
             {%  endfor %}
             </table>

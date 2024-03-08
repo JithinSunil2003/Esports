@@ -23,6 +23,10 @@ st = firebase.storage()
 
 # Create your views here.
 
+
+def index(request):
+    return render(request,"Guest/index.html")
+
 def ajaxplace(request):
     place = db.collection("tbl_place").where("district_id", "==", request.GET.get("did")).stream()
     place_data = []

@@ -1,3 +1,6 @@
+{% extends 'Guest/header.html' %}
+{% load static %}
+{% block content %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +11,7 @@
 <body>
    <form action="" method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    <table>
+    <table align="center" border="1">
         <tr>
             <td>Name</td>
             <td><input type="text" name="orgname" id=""></td>
@@ -88,3 +91,5 @@
         });
     });
 </script>
+
+{% endblock content %}

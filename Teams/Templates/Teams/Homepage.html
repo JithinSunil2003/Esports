@@ -1,5 +1,5 @@
-{% load static %}
-<!DOCTYPE html>
+
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -13,7 +13,7 @@
     <a href="{% url 'webteams:viewmemreq' %}">view member request</a>
     <a href="{% url 'webteams:accepted' %}">accepted</a>
     <a href="{% url 'webteams:viewreq' %}">View Event Request</a>
-</body>
+</body> -->
 {% if msg %}
 <script>
     alert("The Password Reset Link Is sented to {{msg}}")
@@ -23,425 +23,579 @@
 </html>
 
 
-
-
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>Sports Team &mdash; Colorlib Website Template</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans:200,300,400,700,900|Oswald:400,700"> 
-    <link rel="stylesheet" href="{% static 'Team/fonts/icomoon/style.css' %}">
+<head>
+  <title>Soccer &mdash; Website by Colorlib</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link rel="stylesheet" href="{% static 'Team/css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'Team/css/jquery.fancybox.min.css' %}">
-    <link rel="stylesheet" href="{% static 'Team/css/jquery-ui.css' %}">
-    <link rel="stylesheet" href="{% static 'Team/css/owl.carousel.min.css' %}">
-    <link rel="stylesheet" href="{% static 'Team/css/owl.theme.default.min.css' %}">
-    <link rel="stylesheet" href="{% static 'Team/css/animate.css' %}">
-    <link rel="stylesheet" href="{% static 'Team/fonts/flaticon/font/flaticon.css' %}">
-    
-  
-    <link rel="stylesheet" href="{% static 'Team/css/aos.css' %}">
 
-    <link rel="stylesheet" href="{% static 'Team/css/style.css' %}">
-    
-  </head>
-  <body>
-  
-    
-  
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="{% static 'Team/fonts/icomoon/style.css' %}">
+
+  <link rel="stylesheet" href="{% static 'Team/css/bootstrap/bootstrap.css' %}">
+  <link rel="stylesheet" href="{% static 'Team/css/jquery-ui.css' %}">
+  <link rel="stylesheet" href="{% static 'Team/css/owl.carousel.min.css' %}">
+  <link rel="stylesheet" href="{% static 'Team/css/owl.theme.default.min.css' %}">
+  <link rel="stylesheet" href="{% static 'Team/css/owl.theme.default.min.css' %}">
+
+  <link rel="stylesheet" href="{% static 'Team/css/jquery.fancybox.min.css' %}">
+
+  <link rel="stylesheet" href="{% static 'Team/css/bootstrap-datepicker.css' %}">
+
+  <link rel="stylesheet" href="{% static 'Team/fonts/flaticon/font/flaticon.css' %}">
+
+  <link rel="stylesheet" href="{% static 'Team/css/aos.css' %}">
+
+  <link rel="stylesheet" href="{% static 'Team/css/style.css' %}">
+
+
+
+</head>
+
+<body>
+
   <div class="site-wrap">
 
-
-    <div class="site-mobile-menu">
+    <div class="site-mobile-menu site-navbar-target">
       <div class="site-mobile-menu-header">
-        <div class="site-mobile-menu-close mt-3">
+        <div class="site-mobile-menu-close">
           <span class="icon-close2 js-menu-toggle"></span>
         </div>
       </div>
       <div class="site-mobile-menu-body"></div>
-    </div> <!-- .site-mobile-menu -->
+    </div>
 
-    <div class="container">
 
-      <div class="row no-gutters site-navbar align-items-center py-3">
+    <header class="site-navbar py-4" role="banner">
 
-        <div class="col-6 col-lg-2 site-logo">
-          <a href="index.html">SportsTeam</a>
-        </div>
-        <div class="col-6 col-lg-10 text-right menu">
-          <nav class="site-navigation text-right text-md-right">
-
-              <ul class="site-menu js-clone-nav d-none d-lg-block">
-                <li class="active">
-                  <a href="index.html">Home</a>
-                </li>
-                <li><a href="gallery.html">Gallery</a></li>
-                <li class="has-children">
-                  <a href="players.html">Players</a>
-                  <ul class="dropdown arrow-top">
-                    <li><a href="#">Jakub Bates</a></li>
-                    <li><a href="#">Russell Vance</a></li>
-                    <li><a href="#">Carson Hodgson</a></li>
-                    <li class="has-children">
-                      <a href="#">Sub Menu</a>
-                      <ul class="dropdown">
-                        <li><a href="#">Joshua Fugueroa</a></li>
-                        <li><a href="#">Jakub Bates</a></li>
-                        <li><a href="#">Russell Vance</a></li>
-                        <li><a href="#">Carson Hodgson</a></li>
-                      </ul>
-                    </li>
-                  </ul>
-                </li>
-                <li><a href="events.html">Events</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="contact.html">Contact</a></li>
+      <div class="container">
+        <div class="d-flex align-items-center">
+          <div class="site-logo">
+            <a href="index.html">
+              <img src="{% static 'Team/images//logo.png' %}" alt="Logo">
+            </a>
+          </div>
+          <div class="ml-auto">
+            <nav class="site-navigation position-relative text-right" role="navigation">
+              <ul class="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
+                <li class="active"><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="{% url 'webteams:viewevent' %}" class="nav-link">Events</a></li>
+                <li><a href="players.html" class="nav-link">Players</a></li>
+                <li><a href="{% url 'webteams:Myprofile' %}" class="nav-link">My Profile</a></li>
+                <li><a href="contact.html" class="nav-link">Help</a>
+                
+                <li><a href="" class="nav-link">My Request</a></li>
+                <li><a href="" class="nav-link"></a></li>
               </ul>
-
-              <a href="#" class="site-menu-toggle js-menu-toggle text-black d-inline-block d-lg-none"><span class="icon-menu h3"></span></a>
             </nav>
+
+            <a href="#" class="d-inline-block d-lg-none site-menu-toggle js-menu-toggle text-black float-right text-white"><span
+                class="icon-menu h3 text-white"></span></a>
+          </div>
         </div>
       </div>
 
+    </header>
+
+    <div class="hero overlay" style="background-image: url('Team/images//bg_3.jpg');">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg-5 ml-auto">
+            <h1 class="text-white">World Cup Event</h1>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Soluta, molestias repudiandae pariatur.</p>
+            <div id="date-countdown"></div>
+            <p>
+              <a href="#" class="btn btn-primary py-3 px-4 mr-3">Book Ticket</a>
+              <a href="#" class="more light">Learn More</a>
+            </p>  
+          </div>
+        </div>
+      </div>
     </div>
+
     
     
     <div class="container">
+      
+
       <div class="row">
         <div class="col-lg-12">
-          <div class="hero-wrap" style="background-image: url('images/hero_1.jpg');" data-stellar-background-ratio="0.5">
-            <div class="hero-contents">
-              <h2>Team after Training</h2>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui distinctio aliquid dolor odio ullam odit cum veniam fuga aperiam aut.</p>
-              <p class="mb-0"><a href="#" class="more"><span class="mr-2">+</span>Learn More</a></p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="site-section">
-      <div class="container">
-        <div class="col-lg-8 ml-auto">
-          <div class="row">
-            <div class="col-md-6 col-lg-6 mb-5 mb-lg-0">
-              <div class="custom-media d-flex">
-                <div class="img-wrap mr-3">
-                  <a href="#"><img src="images/img_1.jpg" alt="Image" class="img-fluid"></a>
-                </div>
-                <div>
-                  <span class="caption">Latest News</span>
-                  <h3><a href="#">Roman Greg scorer 4 goals</a></h3>
-                  <p class="mb-0"><a href="#" class="more"><span class="mr-2">+</span>Learn More</a></p>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6 col-lg-6 mb-5 mb-lg-0">
-              <div class="custom-media d-flex">
-                <div class="img-wrap mr-3">
-                  <a href="#"><img src="images/img_2.jpg" alt="Image" class="img-fluid"></a>
-                </div>
-                <div>
-                  <span class="caption">Team</span>
-                  <h3><a href="#">Line for the upcoming match</a></h3>
-                  <p class="mb-0"><a href="#" class="more"><span class="mr-2">+</span>Learn More</a></p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-7">
           
+          <div class="d-flex team-vs">
+            <span class="score">4-1</span>
+            <div class="team-1 w-50">
+              <div class="team-details w-100 text-center">
+                <img src="{% static 'Team/images//logo_1.png' %}" alt="Image" class="img-fluid">
+                <h3>LA LEGA <span>(win)</span></h3>
+                <ul class="list-unstyled">
+                  <li>Anja Landry (7)</li>
+                  <li>Eadie Salinas (12)</li>
+                  <li>Ashton Allen (10)</li>
+                  <li>Baxter Metcalfe (5)</li>
+                </ul>
+              </div>
+            </div>
+            <div class="team-2 w-50">
+              <div class="team-details w-100 text-center">
+                <img src="{% static 'Team/images//logo_2.png' %}" alt="Image" class="img-fluid">
+                <h3>JUVENDU <span>(loss)</span></h3>
+                <ul class="list-unstyled">
+                  <li>Macauly Green (3)</li>
+                  <li>Arham Stark (8)</li>
+                  <li>Stephan Murillo (9)</li>
+                  <li>Ned Ritter (5)</li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-
-      <a href="#"></a>
     </div>
+  
+
+    <div class="latest-news">
+      <div class="container">
+        <div class="row">
+          <div class="col-12 title-section">
+            <h2 class="heading">Latest News</h2>
+          </div>
+        </div>
+        <div class="row no-gutters">
+          <div class="col-md-4">
+            <div class="post-entry">
+              <a href="#">
+                <img src="{% static 'Team/images//img_1.jpg' %}" alt="Image" class="img-fluid">
+              </a>
+              <div class="caption">
+                <div class="caption-inner">
+                  <h3 class="mb-3">Romolu to stay at Real Nadrid?</h3>
+                  <div class="author d-flex align-items-center">
+                    <div class="img mb-2 mr-3">
+                      <img src="{% static 'Team/images//person_1.jpg' %}" alt="">
+                    </div>
+                    <div class="text">
+                      <h4>Mellissa Allison</h4>
+                      <span>May 19, 2020 &bullet; Sports</span>
+                    </div>
+                  </div>
+                </div>
+              </div> 
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="post-entry">
+              <a href="#">
+                <img src="{% static 'Team/images//img_3.jpg' %}" alt="Image" class="img-fluid">
+              </a>
+              <div class="caption">
+                <div class="caption-inner">
+                  <h3 class="mb-3">Kai Nets Double To Secure Comfortable Away Win</h3>
+                  <div class="author d-flex align-items-center">
+                    <div class="img mb-2 mr-3">
+                      <img src="{% static 'Team/images//person_1.jpg' %}" alt="">
+                    </div>
+                    <div class="text">
+                      <h4>Mellissa Allison</h4>
+                      <span>May 19, 2020 &bullet; Sports</span>
+                    </div>
+                  </div>
+                </div>
+              </div> 
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="post-entry">
+              <a href="#">
+                <img src="{% static 'Team/images//img_2.jpg' %}" alt="Image" class="img-fluid">
+              </a>
+              <div class="caption">
+                <div class="caption-inner">
+                  <h3 class="mb-3">Dogba set for Juvendu return?</h3>
+                  <div class="author d-flex align-items-center">
+                    <div class="img mb-2 mr-3">
+                      <img src="{% static 'Team/images//person_1.jpg' %}" alt="">
+                    </div>
+                    <div class="text">
+                      <h4>Mellissa Allison</h4>
+                      <span>May 19, 2020 &bullet; Sports</span>
+                    </div>
+                  </div>
+                </div>
+              </div> 
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    
+    <div class="site-section bg-dark">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="widget-next-match">
+              <div class="widget-title">
+                <h3>Next Match</h3>
+              </div>
+              <div class="widget-body mb-3">
+                <div class="widget-vs">
+                  <div class="d-flex align-items-center justify-content-around justify-content-between w-100">
+                    <div class="team-1 text-center">
+                      <img src="{% static 'Team/images//logo_1.png' %}" alt="Image">
+                      <h3>Football League</h3>
+                    </div>
+                    <div>
+                      <span class="vs"><span>VS</span></span>
+                    </div>
+                    <div class="team-2 text-center">
+                      <img src="{% static 'Team/images//logo_2.png' %}" alt="Image">
+                      <h3>Soccer</h3>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="text-center widget-vs-contents mb-4">
+                <h4>World Cup League</h4>
+                <p class="mb-5">
+                  <span class="d-block">December 20th, 2020</span>
+                  <span class="d-block">9:30 AM GMT+0</span>
+                  <strong class="text-primary">New Euro Arena</strong>
+                </p>
+
+                <div id="date-countdown2" class="pb-1"></div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            
+            <div class="widget-next-match">
+              <table class="table custom-table">
+                <thead>
+                  <tr>
+                    <th>P</th>
+                    <th>Team</th>
+                    <th>W</th>
+                    <th>D</th>
+                    <th>L</th>
+                    <th>PTS</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td><strong class="text-white">Football League</strong></td>
+                    <td>22</td>
+                    <td>3</td>
+                    <td>2</td>
+                    <td>140</td>
+                  </tr>
+                  <tr>
+                    <td>2</td>
+                    <td><strong class="text-white">Soccer</strong></td>
+                    <td>22</td>
+                    <td>3</td>
+                    <td>2</td>
+                    <td>140</td>
+                  </tr>
+                  <tr>
+                    <td>3</td>
+                    <td><strong class="text-white">Juvendo</strong></td>
+                    <td>22</td>
+                    <td>3</td>
+                    <td>2</td>
+                    <td>140</td>
+                  </tr>
+                  <tr>
+                    <td>4</td>
+                    <td><strong class="text-white">French Football League</strong></td>
+                    <td>22</td>
+                    <td>3</td>
+                    <td>2</td>
+                    <td>140</td>
+                  </tr>
+                  <tr>
+                    <td>5</td>
+                    <td><strong class="text-white">Legia Abante</strong></td>
+                    <td>22</td>
+                    <td>3</td>
+                    <td>2</td>
+                    <td>140</td>
+                  </tr>
+                  <tr>
+                    <td>6</td>
+                    <td><strong class="text-white">Gliwice League</strong></td>
+                    <td>22</td>
+                    <td>3</td>
+                    <td>2</td>
+                    <td>140</td>
+                  </tr>
+                  <tr>
+                    <td>7</td>
+                    <td><strong class="text-white">Cornika</strong></td>
+                    <td>22</td>
+                    <td>3</td>
+                    <td>2</td>
+                    <td>140</td>
+                  </tr>
+                  <tr>
+                    <td>8</td>
+                    <td><strong class="text-white">Gravity Smash</strong></td>
+                    <td>22</td>
+                    <td>3</td>
+                    <td>2</td>
+                    <td>140</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div> <!-- .site-section -->
 
     <div class="site-section">
       <div class="container">
         <div class="row">
-          <div class="col-6">
-            <h2 class="section-title">Our Players</h2>
+          <div class="col-6 title-section">
+            <h2 class="heading">Videos</h2>
           </div>
           <div class="col-6 text-right">
-            <a href="#" class="custom-prev js-custom-prev-v2">Prev</a>
-            <span class="mx-2">/</span>
-            <a href="#" class="custom-next js-custom-next-v2">Next</a>
+            <div class="custom-nav">
+            <a href="#" class="js-custom-prev-v2"><span class="icon-keyboard_arrow_left"></span></a>
+            <span></span>
+            <a href="#" class="js-custom-next-v2"><span class="icon-keyboard_arrow_right"></span></a>
+            </div>
           </div>
         </div>
+
 
         <div class="owl-4-slider owl-carousel">
-          <div class="item player">
-            <a href="#"><img src="images/player_4.jpg" alt="Image" class="img-fluid"></a>
-            <div class="p-4">
-              <h3>Jakub Bates</h3>
-              <p>#10 / Forward</p>
+          <div class="item">
+            <div class="video-media">
+              <img src="{% static 'Team/images//img_1.jpg' %}" alt="Image" class="img-fluid">
+              <a href="https://vimeo.com/139714818" class="d-flex play-button align-items-center" data-fancybox>
+                <span class="icon mr-3">
+                  <span class="icon-play"></span>
+                </span>
+                <div class="caption">
+                  <h3 class="m-0">Dogba set for Juvendu return?</h3>
+                </div>
+              </a>
             </div>
           </div>
-          <div class="item player">
-            <a href="#"><img src="images/player_1.jpg" alt="Image" class="img-fluid"></a>
-            <div class="p-4">
-              <h3>Joshua Figueroa</h3>
-              <p>#7 / Forward</p>
+          <div class="item">
+            <div class="video-media">
+              <img src="{% static 'Team/images//img_2.jpg' %}" alt="Image" class="img-fluid">
+              <a href="https://vimeo.com/139714818" class="d-flex play-button align-items-center" data-fancybox>
+                <span class="icon mr-3">
+                  <span class="icon-play"></span>
+                </span>
+                <div class="caption">
+                  <h3 class="m-0">Kai Nets Double To Secure Comfortable Away Win</h3>
+                </div>
+              </a>
             </div>
           </div>
-          <div class="item player">
-            <a href="#"><img src="images/player_5.jpg" alt="Image" class="img-fluid"></a>
-            <div class="p-4">
-              <h3>Russell Vance</h3>
-              <p>#1 / Goal Keeper</p>
-            </div>
-          </div>
-          <div class="item player">
-            <a href="#"><img src="images/player_3.jpg" alt="Image" class="img-fluid"></a>
-            <div class="p-4">
-              <h3>Carson Hodgson</h3>
-              <p>#3 / Forward</p>
+          <div class="item">
+            <div class="video-media">
+              <img src="{% static 'Team/images//img_3.jpg' %}" alt="Image" class="img-fluid">
+              <a href="https://vimeo.com/139714818" class="d-flex play-button align-items-center" data-fancybox>
+                <span class="icon mr-3">
+                  <span class="icon-play"></span>
+                </span>
+                <div class="caption">
+                  <h3 class="m-0">Romolu to stay at Real Nadrid?</h3>
+                </div>
+              </a>
             </div>
           </div>
 
-          <div class="item player">
-            <a href="#"><img src="images/player_4.jpg" alt="Image" class="img-fluid"></a>
-            <div class="p-4">
-              <h3>Yanis Velasquez</h3>
-              <p>#4 / Forward</p>
+          <div class="item">
+            <div class="video-media">
+              <img src="{% static 'Team/images//img_1.jpg' %}" alt="Image" class="img-fluid">
+              <a href="https://vimeo.com/139714818" class="d-flex play-button align-items-center" data-fancybox>
+                <span class="icon mr-3">
+                  <span class="icon-play"></span>
+                </span>
+                <div class="caption">
+                  <h3 class="m-0">Dogba set for Juvendu return?</h3>
+                </div>
+              </a>
             </div>
           </div>
-          <div class="item player">
-            <a href="#"><img src="images/player_1.jpg" alt="Image" class="img-fluid"></a>
-            <div class="p-4">
-              <h3>Joshua Figueroa</h3>
-              <p>#8 / Forward</p>
+          <div class="item">
+            <div class="video-media">
+              <img src="{% static 'Team/images//img_2.jpg' %}" alt="Image" class="img-fluid">
+              <a href="https://vimeo.com/139714818" class="d-flex play-button align-items-center" data-fancybox>
+                <span class="icon mr-3">
+                  <span class="icon-play"></span>
+                </span>
+                <div class="caption">
+                  <h3 class="m-0">Kai Nets Double To Secure Comfortable Away Win</h3>
+                </div>
+              </a>
             </div>
           </div>
-          <div class="item player">
-            <a href="#"><img src="images/player_2.jpg" alt="Image" class="img-fluid"></a>
-            <div class="p-4">
-              <h3>Russell Vance</h3>
-              <p>#6 / Forward</p>
-            </div>
-          </div>
-          <div class="item player">
-            <a href="#"><img src="images/player_3.jpg" alt="Image" class="img-fluid"></a>
-            <div class="p-4">
-              <h3>Carson Hodgson</h3>
-              <p>#9 / Forward</p>
+          <div class="item">
+            <div class="video-media">
+              <img src="{% static 'Team/images//img_3.jpg' %}" alt="Image" class="img-fluid">
+              <a href="https://vimeo.com/139714818" class="d-flex play-button align-items-center" data-fancybox>
+                <span class="icon mr-3">
+                  <span class="icon-play"></span>
+                </span>
+                <div class="caption">
+                  <h3 class="m-0">Romolu to stay at Real Nadrid?</h3>
+                </div>
+              </a>
             </div>
           </div>
 
         </div>
-        
+
       </div>
     </div>
 
-    <div class="site-section">
-      <div class="container">
-        <div class="row align-items-center mb-2">
-          <div class="col-6">
-            <h2 class="section-title">Team Gallery</h2>
+    <div class="container site-section">
+      <div class="row">
+        <div class="col-6 title-section">
+          <h2 class="heading">Our Blog</h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="custom-media d-flex">
+            <div class="img mr-4">
+              <img src="{% static 'Team/images//img_1.jpg' %}" alt="Image" class="img-fluid">
+            </div>
+            <div class="text">
+              <span class="meta">May 20, 2020</span>
+              <h3 class="mb-4"><a href="#">Romolu to stay at Real Nadrid?</a></h3>
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus deserunt saepe tempora dolorem.</p>
+              <p><a href="#">Read more</a></p>
+            </div>
           </div>
         </div>
+        <div class="col-lg-6">
+          <div class="custom-media d-flex">
+            <div class="img mr-4">
+              <img src="{% static 'Team/images//img_3.jpg' %}" alt="Image" class="img-fluid">
+            </div>
+            <div class="text">
+              <span class="meta">May 20, 2020</span>
+              <h3 class="mb-4"><a href="#">Romolu to stay at Real Nadrid?</a></h3>
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus deserunt saepe tempora dolorem.</p>
+              <p><a href="#">Read more</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
+
+
+    <footer class="footer-section">
+      <div class="container">
         <div class="row">
-          <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-4">
-            <a href="images/img_1.jpg" data-fancybox="gal"><img src="images/img_1.jpg" alt="Image" class="img-fluid"></a>
-          </div>
-          <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-4">
-            <a href="images/img_2.jpg" data-fancybox="gal"><img src="images/img_2.jpg" alt="Image" class="img-fluid"></a>
-          </div>
-          <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-4">
-            <a href="images/img_3.jpg" data-fancybox="gal"><img src="images/img_3.jpg" alt="Image" class="img-fluid"></a>
-          </div>
-
-          <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-4">
-            <a href="images/img_4.jpg" data-fancybox="gal"><img src="images/img_4.jpg" alt="Image" class="img-fluid"></a>
-          </div>
-          <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-4">
-            <a href="images/img_5.jpg" data-fancybox="gal"><img src="images/img_5.jpg" alt="Image" class="img-fluid"></a>
-          </div>
-          <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-4">
-            <a href="images/img_1.jpg" data-fancybox="gal"><img src="images/img_1.jpg" alt="Image" class="img-fluid"></a>
-          </div>
-          <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-4">
-            <a href="images/img_2.jpg" data-fancybox="gal"><img src="images/img_2.jpg" alt="Image" class="img-fluid"></a>
-          </div>
-          <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-4">
-            <a href="images/img_3.jpg" data-fancybox="gal"><img src="images/img_3.jpg" alt="Image" class="img-fluid"></a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-
-    <div class="site-section">
-      <div class="container">
-        <div class="row align-items-center mb-2">
-          <div class="col-6">
-            <h2 class="section-title">Events</h2>
-          </div>
-        </div>
-
-        <div class="row mb-5">
-          <div class="col-sm-6 col-md-4 col-lg-3 mb-5 mb-lg-0">
-            <div class="custom-media d-block">
-              <div class="img-wrap mb-3">
-                <a href="#"><img src="images/img_1.jpg" alt="Image" class="img-fluid"></a>
-              </div>
-              <div>
-                <span class="caption">May 19, 2020</span>
-                <h3><a href="#">Roman Greg scorer 4 goals</a></h3>
-                <p class="mb-0"><a href="#" class="more"><span class="mr-2">+</span>Learn More</a></p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-sm-6 col-md-4 col-lg-3 mb-5 mb-lg-0">
-            <div class="custom-media d-block">
-              <div class="img-wrap mb-3">
-                <a href="#"><img src="images/img_2.jpg" alt="Image" class="img-fluid"></a>
-              </div>
-              <div>
-                <span class="caption">May 19, 2020</span>
-                <h3><a href="#">Line for the upcoming match</a></h3>
-                <p class="mb-0"><a href="#" class="more"><span class="mr-2">+</span>Learn More</a></p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-sm-6 col-md-4 col-lg-3 mb-5 mb-lg-0">
-            <div class="custom-media d-block">
-              <div class="img-wrap mb-3">
-                <a href="#"><img src="images/img_1.jpg" alt="Image" class="img-fluid"></a>
-              </div>
-              <div>
-                <span class="caption">May 19, 2020</span>
-                <h3><a href="#">Roman Greg scorer 4 goals</a></h3>
-                <p class="mb-0"><a href="#" class="more"><span class="mr-2">+</span>Learn More</a></p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-sm-6 col-md-4 col-lg-3 mb-5 mb-lg-0">
-            <div class="custom-media d-block">
-              <div class="img-wrap mb-3">
-                <a href="#"><img src="images/img_1.jpg" alt="Image" class="img-fluid"></a>
-              </div>
-              <div>
-                <span class="caption">May 19, 2020</span>
-                <h3><a href="#">Roman Greg scorer 4 goals</a></h3>
-                <p class="mb-0"><a href="#" class="more"><span class="mr-2">+</span>Learn More</a></p>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-        <div class="row justify-content-center">
-          <div class="col-lg-4 text-center">
-            <a href="#" class="btn btn-primary py-3 px-4">View All Events</a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    
-    <div class="footer">
-      <div class="container">
-        <div class="row footer-inner">
           <div class="col-lg-3">
-            <div class="widget mb-4">
-              <h3>About Us</h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium vitae aliquam quia beatae necessitatibus omnis nisi, maxime tempora neque et!</p>
-            </div>
-          </div>
-          <div class="col-lg-2 pl-4">
-            <div class="widget mb-4">
-              <h3>Navigation</h3>
+            <div class="widget mb-3">
+              <h3>News</h3>
               <ul class="list-unstyled links">
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Training</a></li>
-                <li><a href="#">Player</a></li>
-                <li><a href="#">Events</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Contact</a></li>
+                <li><a href="#">All</a></li>
+                <li><a href="#">Club News</a></li>
+                <li><a href="#">Media Center</a></li>
+                <li><a href="#">Video</a></li>
+                <li><a href="#">RSS</a></li>
               </ul>
             </div>
           </div>
           <div class="col-lg-3">
-            <div class="widget mb-4">
-              <h3>Upcoming Match</h3>
+            <div class="widget mb-3">
+              <h3>Tickets</h3>
               <ul class="list-unstyled links">
-                <li>
-                  <a href="#">
-                    <span class="d-block">May 19, 2020</span>
-                    SportsTeam vs. LaLegua
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <span class="d-block">May 19, 2020</span>
-                    SportsTeam vs. LaLegua
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <span class="d-block">May 19, 2020</span>
-                    SportsTeam vs. LaLegua
-                  </a>
-                </li>
+                <li><a href="#">Online Ticket</a></li>
+                <li><a href="#">Payment and Prices</a></li>
+                <li><a href="#">Contact &amp; Booking</a></li>
+                <li><a href="#">Tickets</a></li>
+                <li><a href="#">Coupon</a></li>
               </ul>
             </div>
           </div>
-          <div class="col-lg-4">
-            <div class="widget mb-4">
+          <div class="col-lg-3">
+            <div class="widget mb-3">
+              <h3>Matches</h3>
+              <ul class="list-unstyled links">
+                <li><a href="#">Standings</a></li>
+                <li><a href="#">World Cup</a></li>
+                <li><a href="#">La Lega</a></li>
+                <li><a href="#">Hyper Cup</a></li>
+                <li><a href="#">World League</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="col-lg-3">
+            <div class="widget mb-3">
               <h3>Social</h3>
-              <ul class="list-unstyled social">
-                <li><a href="#"><span class="mr-2 icon-facebook"></span> Facebook</a></li>
-                <li><a href="#"><span class="mr-2 icon-twitter"></span> Twitter</a></li>
-                <li><a href="#"><span class="mr-2 icon-instagram"></span> Instagram</a></li>
-                <li><a href="#"><span class="mr-2 icon-linkedin"></span> Linkedin</a></li>
-                <li><a href="#"><span class="mr-2 icon-play"></span> Youtube</a></li>
+              <ul class="list-unstyled links">
+                <li><a href="#">Twitter</a></li>
+                <li><a href="#">Facebook</a></li>
+                <li><a href="#">Instagram</a></li>
+                <li><a href="#">Youtube</a></li>
               </ul>
             </div>
           </div>
 
-          <div class="col-12 mt-5 text-center copyright">
-            <p>
-              <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-              Copyright &copy; <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart text-danger" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank" >Colorlib</a>
-              <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+        </div>
+
+        <div class="row text-center">
+          <div class="col-md-12">
+            <div class=" pt-5">
+              <p>
+                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                Copyright &copy;
+                <script>
+                  document.write(new Date().getFullYear());
+                </script> All rights reserved | This template is made with <i class="icon-heart"
+                  aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
               </p>
+            </div>
           </div>
 
         </div>
       </div>
-    </div >
-    
+    </footer>
+
+
 
   </div>
+  <!-- .site-wrap -->
 
-  <script src="{% static 'Team/js/jquery.min.js' %}"></script>
+  <script src="{% static 'Team/js/jquery-3.3.1.min.js' %}"></script>
   <script src="{% static 'Team/js/jquery-migrate-3.0.1.min.js' %}"></script>
   <script src="{% static 'Team/js/jquery-ui.js' %}"></script>
   <script src="{% static 'Team/js/popper.min.js' %}"></script>
   <script src="{% static 'Team/js/bootstrap.min.js' %}"></script>
   <script src="{% static 'Team/js/owl.carousel.min.js' %}"></script>
   <script src="{% static 'Team/js/jquery.stellar.min.js' %}"></script>
-  <script src="{% static 'Team/js/jquery.fancybox.min.js' %}"></script>
+  <script src="{% static 'Team/js/jquery.countdown.min.js' %}"></script>
+  <script src="{% static 'Team/js/bootstrap-datepicker.min.js' %}"></script>
+  <script src="{% static 'Team/js/jquery.easing.1.3.js' %}"></script>
   <script src="{% static 'Team/js/aos.js' %}"></script>
+  <script src="{% static 'Team/js/jquery.fancybox.min.js' %}"></script>
+  <script src="{% static 'Team/js/jquery.sticky.js' %}"></script>
+  <script src="{% static 'Team/js/jquery.mb.YTPlayer.min.js' %}"></script>
+
 
   <script src="{% static 'Team/js/main.js' %}"></script>
-    
-  </body>
+
+</body>
+
 </html>

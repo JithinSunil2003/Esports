@@ -111,19 +111,19 @@
                         <div class="nav-menu">
                             <ul class="main-menu">
                                 <li class="active"><a href="./index.html">Home</a></li>
-                                <li><a href="./club.html">Club</a></li>
-                                <li><a href="./schedule.html">Schedule</a></li>
-                                <li><a href="./result.html">Results</a></li>
-                                <li><a href="#">Sport</a></li>
-                                <li><a href="#">Pages</a>
+                                <li><a href="{% url 'webuser:viewteams' %}">Teams</a></li>
+                                <li><a href="{% url 'webuser:myreq' %}">My Request</a></li>
+                                <li><a href="{% url 'webuser:viewteams' %}">Results</a></li>
+                                <li><a href="#">Event</a></li>
+                                <li><a href="#">Contact Us</a>
                                     <ul class="dropdown">
-                                        <li><a href="./blog.html">Blog</a></li>
-                                        <li><a href="./blog-details.html">Blog Details</a></li>
-                                        <li><a href="#">Schedule</a></li>
-                                        <li><a href="#">Results</a></li>
+                                        <li><a href="{% url 'webuser:complaint' %}">Complaint</a></li>
+                                        <li><a href="{% url 'webuser:feedback' %}">Feedback</a></li>
+                                        <!-- <li><a href="#">Schedule</a></li>
+                                        <li><a href="#">Results</a></li> -->
                                     </ul>
                                 </li>
-                                <li><a href="./contact.html">Contact Us</a></li>
+                                <li><a href="{% url 'webuser:Myprofile' %}">My Profile</a></li>
                             </ul>
                             <div class="nm-right search-switch">
                                 <i class="fa fa-search"></i>

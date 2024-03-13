@@ -126,7 +126,7 @@ def editeventtype(request,id):
         return render(request,"Admin/Eventtype.html",{"Etype_data":Etype})
 
 def admin(request):
-    # if "aid" in request.session:
+    if "aid" in request.session:
         if request.method =="POST":
             email = request.POST.get("email")
             password = request.POST.get("password")
@@ -138,8 +138,8 @@ def admin(request):
             return render(request,"Admin/Admin.html")
         else:
             return render(request,"Admin/Admin.html")
-    # else:
-    #     return redirect(request,"Guest/Login.html")
+    else:
+        return redirect(request,"Guest/Login.html")
 
 def homepage(request):
     if "aid" in request.session:

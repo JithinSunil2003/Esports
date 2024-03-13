@@ -14,15 +14,15 @@
     <table align="center" border="1">
         <tr>
             <td>Name</td>
-            <td><input type="text" name="tname" id=""></td>
+            <td><input type="text" name="tname" id="" required="required" autocomplete="off" pattern="[a-zA-Z ]{4,15}" title="Enter a valid name"></td>
         </tr>
         <tr>
             <td>Contact</td>
-            <td><input type="text" name="tcontact" id=""></td>
+            <td><input type="text" name="tcontact" id="" required="required" pattern="[0-9]{10,10}" title="Enter Correct Contact Number" autocomplete="off"></td>
         </tr>
         <tr>
             <td>Email</td>
-            <td><input type="text" name="temail" id=""></td>
+            <td><input type="text" name="temail" id="" pattern="/^[a-zA-Z0-9.!#$%&*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/" >></td>
         </tr>
         <tr>
             <td>District</td>
@@ -41,20 +41,20 @@
         </tr>
         <tr>
             <td>Address</td>
-            <td><textarea name="taddress" id="" cols="30" rows="10"></textarea></td>
+            <td><textarea name="taddress" id="" cols="30" rows="10" required="required"></textarea></td>
         </tr>
         
         <tr>
             <td>Photo</td>
-            <td><input type="file" name="tphoto" id=""></td>
+            <td><input type="file" name="tphoto" id="" required="required"></td>
         </tr>
         <tr>
             <td>Proof</td>
-            <td><input type="file" name="tproof" id=""></td>
+            <td><input type="file" name="tproof" id="" required="required"></td>
         </tr>
         <tr>
             <td>Password</td>
-            <td><input type="password" name="password" id=""></td>
+            <td><input type="password" name="password" id="" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required></td>
         </tr>
         <tr>
             <td colspan="2" align="center"><input type="submit" value="Submit">  <input type="reset" value="Reset"></td>

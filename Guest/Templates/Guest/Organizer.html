@@ -11,18 +11,18 @@
 <body>
    <form action="" method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    <table align="center" border="1">
+    <table align="center" >
         <tr>
             <td>Name</td>
-            <td><input type="text" name="orgname" id=""></td>
+            <td><input type="text" name="orgname" id="" required="required" autocomplete="off" pattern="[a-zA-Z ]{4,15}" title="Enter a valid name"></td>
         </tr>
         <tr>
             <td>Contact</td>
-            <td><input type="text" name="orgcontact" id=""></td>
+            <td><input type="text" name="orgcontact" id="" required="required" pattern="[0-9]{10,10}" title="Enter Correct Contact Number" autocomplete="off"></td>
         </tr>
         <tr>
             <td>Email</td>
-            <td><input type="text" name="orgemail" id=""></td>
+            <td><input type="text" name="orgemail" id="" pattern="/^[a-zA-Z0-9.!#$%&*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/" ></td>
         </tr>
         <tr>
             <td>District</td>
@@ -30,7 +30,7 @@
                 <option value="">...Select...</option>
                 {% for i in district %}
                 <option value="{{i.id}}">{{i.dis.district_name}}</option>
-            {% endfor %}
+            {% endfor %} 
         </select></td>
         </tr>
         <tr>
@@ -41,20 +41,20 @@
         </tr>
         <tr>
             <td>Address</td>
-            <td><textarea name="orgaddress" id="" cols="30" rows="10"></textarea></td>
+            <td><textarea name="orgaddress" id="" cols="30" rows="10" required="required" autocomplete="off"></textarea></td>
         </tr>
         
         <tr>
             <td>Photo</td>
-            <td><input type="file" name="orgphoto" id=""></td>
+            <td><input type="file" name="orgphoto" id="" required="required"></td>
         </tr>
         <tr>
             <td>Proof</td>
-            <td><input type="file" name="orgproof" id=""></td>
+            <td><input type="file" name="orgproof" id="" required="required"></td>
         </tr>
         <tr>
             <td>Password</td>
-            <td><input type="password" name="password" id=""></td>
+            <td><input type="password" name="password" id="" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required required="required" autocomplete="off"></td>
         </tr>
         <tr>
             <td colspan="2" align="center"><input type="submit" value="Submit">  <input type="reset" value="Reset"></td>

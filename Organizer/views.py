@@ -32,8 +32,11 @@ def homepage(request):
 
 
 def Myprofile (request):
+  if 'oid' in request.session:
     organizer = db.collection("tbl_orgreg").document(request.session["oid"]).get().to_dict()
     return render(request,"Organizer/Myprofile.html",{"organizer":organizer})
+  else:
+    return render(request,"Guest/Login.html")    
 
 def Editprofile(request):
   organizer = db.collection("tbl_orgreg").document(request.session["oid"]).get().to_dict()
@@ -59,25 +62,27 @@ def changepassword(request):
 
 
 def event(request):
-  Etype=db.collection("tbl_Eventtype").stream()
-  Etype_data=[]
-  for i in Etype:
-    data=i.to_dict()
-    Etype_data.append({"Etype":i.to_dict(),"id":i.id})
-    result=[]
-    event_data=db.collection("tbl_event").stream()
-  for event in event_data:
-    event_dict=event.to_dict()
-    Etype=db.collection("tbl_Eventtype").document(event_dict["Eventtype_id"]).get()
-    Etype_dict=Etype.to_dict()
-    result.append({'Etypedata':Etype_dict,'event_data':event_dict,'eventid':event.id})
-  if request.method=="POST":
-    data={"organizer_id":request.session["oid"],"event_name":request.POST.get("ename"),"Eventtype_id":request.POST.get("etype"),"description":request.POST.get("description"),"event_count":request.POST.get("count"),"event_amount":request.POST.get("amount")}
-    db.collection("tbl_event").add(data)
-    return redirect("weborganizer:event")
+  if 'oid' in request.session:
+    Etype=db.collection("tbl_Eventtype").stream()
+    Etype_data=[]
+    for i in Etype:
+      data=i.to_dict()
+      Etype_data.append({"Etype":i.to_dict(),"id":i.id})
+      result=[]
+      event_data=db.collection("tbl_event").stream()
+    for event in event_data:
+      event_dict=event.to_dict()
+      Etype=db.collection("tbl_Eventtype").document(event_dict["Eventtype_id"]).get()
+      Etype_dict=Etype.to_dict()
+      result.append({'Etypedata':Etype_dict,'event_data':event_dict,'eventid':event.id})
+    if request.method=="POST":
+      data={"organizer_id":request.session["oid"],"event_name":request.POST.get("ename"),"Eventtype_id":request.POST.get("etype"),"description":request.POST.get("description"),"event_count":request.POST.get("count"),"event_amount":request.POST.get("amount")}
+      db.collection("tbl_event").add(data)
+      return redirect("weborganizer:event")
+    else:
+      return render(request,"Organizer/Event.html",{"Etype":Etype_data,"event_data":result})
   else:
-    return render(request,"Organizer/Event.html",{"Etype":Etype_data,"event_data":result})
-
+    return render(request,"Guest/Login.html")
    
 
 
@@ -103,50 +108,55 @@ def complaint(request):
   if 'oid' in request.session:
     com=db.collection("tbl_complaint").where("organizer_id","==",request.session["oid"]).stream()
     com_data=[]
-  for i in com:
-      data=i.to_dict()
-      com_data.append({"com":data,"id":i.id})
-  if request.method=="POST":
-      datedata = date.today()
-      data={"team_id":0,"user_id":0,"complaint_content":request.POST.get("content"),"organizer_id":request.session["oid"],"complaint_status":0,"complaint_date":str(datedata)}
-      db.collection("tbl_complaint").add(data)
-      return redirect("weborganizer:complaint")
+    for i in com:
+        data=i.to_dict()
+        com_data.append({"com":data,"id":i.id})
+    if request.method=="POST":
+        datedata = date.today()
+        data={"team_id":0,"user_id":0,"complaint_content":request.POST.get("content"),"organizer_id":request.session["oid"],"complaint_status":0,"complaint_date":str(datedata)}
+        db.collection("tbl_complaint").add(data)
+        return redirect("weborganizer:complaint")
+    else:
+      return render(request,"Organizer/Complaint.html",{"com":com_data})
   else:
-    return render(request,"Organizer/Complaint.html",{"com":com_data})
-
+    return render(request,"Guest/Login.html")
 
 def delcomplaint(request,id):
   db.collection("tbl_complaint").document(id).delete()     
   return redirect("weborganizer:complaint")  
 
 def feedback(request):
-  feed=db.collection("tbl_feedback").where("organizer_id","==",request.session["oid"]).stream()
-  feed_data=[]
-  for i in feed:
-      data=i.to_dict
-      feed_data.append({"feed":data,"id":i.id})
-  if request.method=="POST":
-    
-    data={"feedback_content":request.POST.get("content"),"organizer_id":request.session["oid"]}
-    db.collection("tbl_feedback").add(data)
-    return redirect("weborganizer:feedback")
+  if 'oid' in request.session:
+    feed=db.collection("tbl_feedback").where("organizer_id","==",request.session["oid"]).stream()
+    feed_data=[]
+    for i in feed:
+        data=i.to_dict
+        feed_data.append({"feed":data,"id":i.id})
+    if request.method=="POST":
+      
+      data={"feedback_content":request.POST.get("content"),"organizer_id":request.session["oid"]}
+      db.collection("tbl_feedback").add(data)
+      return redirect("weborganizer:feedback")
+    else:
+      return render(request,"Organizer/Feedback.html",{"feed":feed_data})  
   else:
-    return render(request,"Organizer/Feedback.html",{"feed":feed_data})  
-
+    return render(request,"Guest/Login.html")
 
 def delfeedback(request,id):
   db.collection("tbl_feedback").document(id).delete()
   return redirect("weborganizer:feedback")    
 
 def viewreq(request):
-  req=db.collection("tbl_request").where("request_status","==",0).stream()
-  req_data=[]
-  for i in req:
-    data=i.to_dict()
-    team = db.collection("tbl_teamreg").document(data["team_id"]).get().to_dict()
-    req_data.append({"view":data,"id":i.id,"team":team})
-  
-  return render(request,"Organizer/ViewRequest.html",{"view":req_data})
+  if 'oid' in request.session:
+    req=db.collection("tbl_request").where("request_status","==",0).stream()
+    req_data=[]
+    for i in req:
+      data=i.to_dict()
+      team = db.collection("tbl_teamreg").document(data["team_id"]).get().to_dict()
+      req_data.append({"view":data,"id":i.id,"team":team})
+    return render(request,"Organizer/ViewRequest.html",{"view":req_data})
+  else:
+    return render(request,"Guest/Login.html")
 
 def accepted(request,id):
   req=db.collection("tbl_request").document(id).update({"request_status":1})
@@ -158,34 +168,41 @@ def rejected(request,id):
 
 
 def acceptedlist(request,id):
-  event = db.collection("tbl_event").document(id).get().to_dict()
-  event_count = event["event_count"]
-  req=db.collection("tbl_request").where("request_status","==",1).where("event_id","==",id).stream()
-  req_data=[]
-  for i in req:
-    data=i.to_dict()
-    team = db.collection("tbl_teamreg").document(data["team_id"]).get().to_dict()
-    req_data.append({"accept":data,"id":i.id,"team":team})
-  return render(request,"Organizer/AcceptedList.html",{"accept":req_data,"event_count":event_count})
-  
-
+  if 'oid' in request.session:
+    event = db.collection("tbl_event").document(id).get().to_dict()
+    event_count = event["event_count"]
+    req=db.collection("tbl_request").where("request_status","==",1).where("event_id","==",id).stream()
+    req_data=[]
+    for i in req:
+      data=i.to_dict()
+      team = db.collection("tbl_teamreg").document(data["team_id"]).get().to_dict()
+      req_data.append({"accept":data,"id":i.id,"team":team})
+    return render(request,"Organizer/AcceptedList.html",{"accept":req_data,"event_count":event_count})
+  else:
+    return render(request,"Guest/Login.html")
 
 def rejectedlist(request):
-  req=db.collection("tbl_request").where("request_status","==",2).stream()
-  req_data=[]
-  for i in req:
-    data=i.to_dict()
-    team = db.collection("tbl_teamreg").document(data["team_id"]).get().to_dict()
-    req_data.append({"reject":data,"id":i.id,"team":team})
-  return render(request,"Organizer/RejectedList.html",{"reject":req_data})
+  if 'oid' in request.session:
+    req=db.collection("tbl_request").where("request_status","==",2).stream()
+    req_data=[]
+    for i in req:
+      data=i.to_dict()
+      team = db.collection("tbl_teamreg").document(data["team_id"]).get().to_dict()
+      req_data.append({"reject":data,"id":i.id,"team":team})
+    return render(request,"Organizer/RejectedList.html",{"reject":req_data})
+  else:
+    return render(request,"Guest/Login.html")  
   
 def schedule(request):
   return render(request,"Organizer/Schedule.html")  
 
 ##Chat
 def chat(request,id):
-    to_team = db.collection("tbl_teamreg").document(id).get().to_dict()
-    return render(request,"Organizer/Chat.html",{"user":to_team,"tid":id})
+  if 'oid' in request.session:
+      to_team = db.collection("tbl_teamreg").document(id).get().to_dict()
+      return render(request,"Organizer/Chat.html",{"user":to_team,"tid":id})
+  else:
+    return render(request,"Guest/Login.html")
 
 def ajaxchat(request):
     image = request.FILES.get("file")
@@ -215,6 +232,7 @@ def ajaxchatview(request):
     return render(request,"Organizer/ChatView.html",{"data":data,"tid":tid})
 
 def clearchat(request):
+  if "oid" in session:
     toid = request.GET.get("tid")
     chat_data1 = db.collection("tbl_chat2").where("org_from", "==", request.session["oid"]).where("team_to", "==", request.GET.get("tid")).stream()
     for i1 in chat_data1:
@@ -223,3 +241,20 @@ def clearchat(request):
     for i2 in chat_data2:
         i2.reference.delete()
     return render(request,"Organizer/ClearChat.html",{"msg":"Chat Cleared Sucessfully....."})
+  else:
+    return render(request,"Guest/Login.html")  
+
+
+def viewreply(request):
+    if 'oid' in request.session:
+        com = db.collection("tbl_complaint").where("organizer_id", "==", request.session["oid"]).stream()
+        com_data = []
+        for c in com:
+            com_data.append({"complaint":c.to_dict(),"id":c.id})
+        return render(request,"Organizer/ViewReply.html",{"com":com_data})
+    else:
+        return redirect("webguest:login")        
+
+def logout(request):
+    del request.session["oid"]
+    return redirect("webguest:login")           

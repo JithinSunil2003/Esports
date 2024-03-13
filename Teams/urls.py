@@ -36,4 +36,5 @@ urlpatterns = [
     path('payment/<str:id>',views.payment,name="payment"),
     path('loader/',views.loader,name="loader"),
     path('paymentsuc/',views.paymentsuc,name="paymentsuc"),
+    path('logout/',views.logout,name="logout"),
 ]

@@ -2,7 +2,9 @@ from django.shortcuts import render,redirect
 import firebase_admin 
 from firebase_admin import firestore,credentials,storage,auth
 import pyrebase
-
+from django.core.mail import send_mail
+from django.conf import settings
+from django.contrib import messages
 
 db=firestore.client()
 
@@ -156,3 +158,17 @@ def login(request):
             return render(request,"Guest/Login.html",{"msg":"error"})    
     else:
        return render(request,"Guest/Login.html")            
+
+def fpassword(request):
+    if request.method == "POST":
+        email = request.POST.get("txt_email")
+        reset_link = firebase_admin.auth.generate_password_reset_link(email)
+        send_mail(
+            'Forgot password ', #subject
+            "\rHello \r\nFollow this link to reset your Project password for your " + email + "\n" + reset_link +".\n If you didn't ask to reset your password, you can ignore this email. \r\n Thanks. \r\n Your D MARKET team.",#body
+            settings.EMAIL_HOST_USER,
+            [email],
+        )
+        return render(request,"Guest/Forgot_password.html",{"msg":email})
+    else:
+        return render(request,"Guest/Forgot_password.html")

@@ -28,7 +28,9 @@
                     {% if i.view.request_status == 0 %}
                     <span style="color: red;">Pending</span>
                     {% elif i.view.request_status == 1 %}
-                    <span style="color: green;">Accept | <a href="">Payment</a></span>
+                    <span style="color: green;">Accept | <a href="{% url 'webteams:payment' i.id %}">Payment</a></span>
+                    {% elif i.view.request_status == 3 %}
+                    <span style="color: green;">Payed</span>
                     {% else %}
                     <span style="color: red;">Reject</span>
                     {% endif %}

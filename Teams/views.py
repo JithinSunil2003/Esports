@@ -302,3 +302,19 @@ def clearchat2(request):
     for i2 in chat_data2:
         i2.reference.delete()
     return render(request,"Teams/ClearChat2.html",{"msg":"Chat Cleared Sucessfully....."})
+
+def payment(request,id):
+  req = db.collection("tbl_request").document(id).get().to_dict()
+  event = db.collection("tbl_event").document(req["event_id"]).get().to_dict()
+  tot = event["event_amount"]
+  if request.method == "POST":
+    db.collection("tbl_request").document(id).update({"request_status":3})
+    return redirect("webteams:loader")
+  else:
+    return render(request,"Teams/Payment.html",{"total":tot})
+
+def loader(request):
+  return render(request,"Teams/Loader.html")
+
+def paymentsuc(request):
+  return render(request,"Teams/Payment_suc.html")

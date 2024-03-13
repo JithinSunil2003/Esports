@@ -19,4 +19,5 @@ urlpatterns = [
         path('ViewComplaint/',views.viewcomplaint,name="viewcomplaint"),
         path('Reply/<str:id>',views.reply,name="reply"),
         path('viewfeedback/',views.viewfeedback,name="viewfeedback"),
+        path('logout/',views.logout,name="logout"),
 ]

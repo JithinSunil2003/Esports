@@ -1,19 +1,23 @@
+{% extends 'Organizer/Header.html' %}
+{% block content %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
     <form action="" method="post">
-        
+
         <table cellpadding="10">
             <tr>
                 <td colspan="5" align="right">
                     {% if event_count == 0 %}
-                      <a href="{% url 'weborganizer:schedule' %}">Schedule</a>
-                    
+                    <a href="{% url 'weborganizer:schedule' %}">Schedule</a>
+
                     {% endif %}
                 </td>
             </tr>
@@ -27,17 +31,25 @@
             {% for i in accept %}
             <tr>
                 <td>{{forloop.counter}}</td>
-               <td>{{i.team.team_name}}</td>    
-               <td>{{i.accept.request_date}}</td>
-               <td>{{i.accept.request_status}}</td>
-               <td>
+                <td>{{i.team.team_name}}</td>
+                <td>{{i.accept.request_date}}</td>
+                <td>
+                    {% if i.accept.request_status == 3 %}
+                    <span style="color: green;">Payed</span>
+                    {% else %}
+                    <span style="color: red;">Not Payed</span>
+                    {% endif %}
+                </td>
+                <td>
                     <a href="{% url  'weborganizer:rejected' i.id %}">Reject</a>
                     <a href="{% url 'weborganizer:chat' i.accept.team_id %}">Chat</a>
                 </td>
-               
+
             </tr>
             {% endfor %}
         </table>
     </form>
 </body>
+
 </html>
+{% endblock content %}

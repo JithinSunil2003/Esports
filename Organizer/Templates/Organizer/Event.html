@@ -1,3 +1,5 @@
+{% extends 'Organizer/Header.html' %}
+{% block content %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,6 +35,10 @@
                 <td><input type="number" name="count" id=""></td>
             </tr>
             <tr>
+                <td>Amount</td>
+                <td><input type="text" name="amount" id=""></td>
+            </tr>
+            <tr>
                 <td colspan="2" align="center"><input type="submit" value="Submit"><input type="reset" value="Reset"></td>
                 <td></td>
             </tr>
@@ -46,6 +52,7 @@
             <td>Name</td>
             <td>Description</td>
             <td>Count</td>
+            <td></td>
             <td>Action</td>
         </tr>
         {% for i in event_data %}
@@ -64,3 +71,4 @@
     </table>
 </body>
 </html>
+{% endblock content %}

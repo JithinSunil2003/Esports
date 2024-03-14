@@ -160,10 +160,28 @@ def viewreq(request):
 
 def accepted(request,id):
   req=db.collection("tbl_request").document(id).update({"request_status":1})
+  req = db.collection("tbl_request").document(id).get().to_dict()
+  team = db.collection("tbl_teamreg").document(req["team_id"]).get().to_dict()
+  email = team["team_email"]
+  send_mail(
+          'Event Request ', #subject
+          "\rHello \r\nYour Request Has Been Accepted " + email ,#body
+          settings.EMAIL_HOST_USER,
+          [email],
+    )
   return redirect("weborganizer:viewreq")
 
 def rejected(request,id):
   req=db.collection("tbl_request").document(id).update({"request_status":2})
+  req = db.collection("tbl_request").document(id).get().to_dict()
+  team = db.collection("tbl_teamreg").document(req["team_id"]).get().to_dict()
+  email = team["team_email"]
+  send_mail(
+          'Event Request ', #subject
+          "\rHello \r\nYour Request Has Been Rejected " + email ,#body
+          settings.EMAIL_HOST_USER,
+          [email],
+    )
   return redirect("weborganizer:viewreq")  
 
 

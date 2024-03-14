@@ -219,11 +219,32 @@ def viewmemreq(request):
 
 def accept(request,id):
   req=db.collection("tbl_memberreq").document(id).update({"member_request_status":1})
+  req = db.collection("tbl_memberreq").document(id).get().to_dict()
+  user = db.collection("tbl_userreg").document(req["user_id"]).get().to_dict()
+  email = user["user_email"]
+  send_mail(
+          'Member ', #subject
+          "\rHello \r\nYour Request Has Been Accepted. " + email +" Welcome to the team ." ,#body
+          settings.EMAIL_HOST_USER,
+          [email],
+    )
   return redirect("webteams:viewmemreq")  
 
 
 def reject(request,id):
   req=db.collection("tbl_memberreq").document(id).update({"member_request_status":2})
+  req = db.collection("tbl_memberreq").document(id).get().to_dict()
+  user = db.collection("tbl_userreg").document(req["user_id"]).get().to_dict()
+  email = user["user_email"]
+  send_mail(
+          'Member ', #subject
+          "\rHello \r\nYour Request Has Been Rejected. " + email  ,#body
+          settings.EMAIL_HOST_USER,
+          [email],
+    )
+  return redirect("webteams:viewmemreq")  
+
+
   return redirect("webteams:viewmemreq") 
 
 def accepted(request):

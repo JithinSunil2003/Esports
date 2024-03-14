@@ -33,7 +33,7 @@ def homepage(request):
 
 
 def Myprofile (request):
-  if "uid" in session:
+  if "uid" in request.session:
     user = db.collection("tbl_userreg").document(request.session["uid"]).get().to_dict()
     return render(request,"User/Myprofile.html",{"user":user})
   else:
@@ -62,7 +62,7 @@ def changepassword(request):
   return render(request,"User/Homepage.html",{"msg":email})
 
 def complaint(request):
-  if "uid" in session:
+  if "uid" in request.session:
     com=db.collection("tbl_complaint").where("user_id","==",request.session["uid"]).stream()
     com_data=[]
     for i in com:
@@ -84,7 +84,7 @@ def delcomplaint(request,id):
   return redirect("webuser:complaint")  
 
 def feedback(request):
-  if "uid" in session:
+  if "uid" in request.session:
     feed=db.collection("tbl_feedback").where("user_id","==",request.session["uid"]).stream()
     feed_data=[]
     for i in feed:
@@ -105,7 +105,7 @@ def delfeedback(request,id):
 
 
 def viewteams(request):
-  if "uid" in session:
+  if "uid" in request.session:
     team=db.collection("tbl_teamreg").stream()
     team_data=[]
     for i in team:
@@ -116,7 +116,7 @@ def viewteams(request):
     return render(request,"Guest/Login.html")
 
 def memberreq(request,id):
-  if "uid" in session:
+  if "uid" in request.session:
     team=db.collection("tbl_teamreg").where("user_id","==",request.session["uid"]).stream()
     team_data=[]
     datedata = date.today()
@@ -127,7 +127,7 @@ def memberreq(request,id):
     return render(request,"Guest/Login.html")
 
 def myreq(request):
-  if "uid" in session:
+  if "uid" in request.session:
     memreq=db.collection("tbl_memberreq").where("user_id","==",request.session["uid"]).stream()
     memreq_data=[]
     for i in memreq:
@@ -139,7 +139,7 @@ def myreq(request):
     return render(request,"Guest/Login.html")  
   
 def chat(request,id):
-  if "uid" in session:
+  if "uid" in request.session:
     to_team = db.collection("tbl_teamreg").document(id).get().to_dict()
     return render(request,"User/Chat.html",{"user":to_team,"tid":id})
   else:
@@ -175,7 +175,7 @@ def ajaxchatview(request):
     return render(request,"User/ChatView.html",{"data":data,"tid":tid})
 
 def clearchat(request):
-  if "uid" in session:
+  if "uid" in request.session:
     toid = request.GET.get("tid")
     chat_data1 = db.collection("tbl_chat").where("user_from", "==", request.session["uid"]).where("team_to", "==", request.GET.get("tid")).stream()
     for i1 in chat_data1:

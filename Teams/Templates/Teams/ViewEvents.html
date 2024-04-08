@@ -8,20 +8,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        div {
+            margin-bottom: 15px;
+        }
+
         span {
             color: red;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
     <form action="" method="post">
         {% csrf_token %}
-        <div align="Center">
+        <div align="center">
             {% for i in event_data %}
-            <div>Event Type:{{i.Etypedata.Event_type}}</div>
-            <div>Name:{{i.event_data.event_name}}</div>
-            <div>Description:{{i.event_data.description}}</div>
-            <!-- <div>Slots Remaining:{{i.event_data.event_count}}</div> -->
+            <div>Event Type: {{i.Etypedata.Event_type}}</div>
+            <div>Name: {{i.event_data.event_name}}</div>
+            <div>Description: {{i.event_data.description}}</div>
+            <!-- <div>Slots Remaining: {{i.event_data.event_count}}</div> -->
           
             <div>
                 {% if i.event_data.event_count == 0 %}
@@ -30,12 +47,11 @@
                 <a href="{% url 'webteams:Req' i.eventid %}">Request</a>
                 {% endif %}
             </div>
-            
-
             {% endfor %}
         </div>
-       
     </form>
+
+
     {% if msg %}
     <script>
         alert ("{{msg}}")

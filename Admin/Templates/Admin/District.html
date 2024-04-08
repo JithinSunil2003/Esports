@@ -8,6 +8,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 50%;
+            border-collapse: collapse; /* Merge borders for a cleaner look */
+            margin-top: 50px;
+            margin-left: 50px;
+        }
+        td, th {
+            border: 1px solid #dddddd; /* Light grey border */
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9; /* Zebra striping for rows */
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin: 4px 0;
+            box-sizing: border-box;
+            border: 1px solid #cccccc;
+            border-radius: 4px;
+        }
+        button[type="submit"] {
+            background-color: #4CAF50; /* Green background */
+            color: white;
+            padding: 10px 20px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button[type="submit"]:hover {
+            background-color: #45a049; /* Darker green */
+        }
+        a {
+            color: #007bff; /* Bootstrap link color */
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .button-container {
+            text-align: center; /* Centers the button inside the container */
+        }
+    </style>
 </head>
 <body>
     <form action="" method="post">
@@ -18,9 +71,7 @@
                 <td><input type="text" name="district" id="" value="{{dis_data.district_name}}"></td>
             </tr>
             <tr>
-                <td colspan="2" align="center"><input type="submit" value="Submit">
-                </td>
-                <td></td>
+                <td colspan="2"  class="button-container"><input type="submit" value="Submit"></td>
             </tr>
         </table>
     </form>
@@ -34,12 +85,13 @@
         <tr>
             <td>{{forloop.counter}}</td>
             <td>{{i.dis.district_name}}</td>
-            <td><a href="{% url 'webadmin:deldistrict' i.id %}">Delete</a></td>
-            <td><a href="{% url 'webadmin:editdistrict' i.id %}">Edit</a></td>
+            <td><a href="{% url 'webadmin:deldistrict' i.id %}">Delete</a> |
+            <a href="{% url 'webadmin:editdistrict' i.id %}">Edit</a></td>
         </tr>
         {% endfor %}
     </table>
 </body>
 </html>
+
 
 {% endblock content %}  

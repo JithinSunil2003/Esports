@@ -36,9 +36,9 @@
    </head>
    <body class="game_info" data-spy="scroll" data-target=".header">
       <!-- LOADER -->
-      <div id="preloader">
-         <img class="preloader" src="images/loading-img.gif" alt="">
-      </div>
+      <!-- <div id="preloader">
+         <img class="preloader" src="{% static 'Main/images/loading-img.gif' %}" alt="">
+      </div> -->
       <!-- END LOADER -->
       <section id="top">
          <header>
@@ -48,7 +48,7 @@
                      <div class="col-md-6">
                         <div class="full">
                            <div class="logo">
-                              <a href="index.html"><img src="images/logo.png" alt="#" /></a>
+                              <a href="index.html"><img src="{% static 'Main/images/logo.png' %}" alt="#" /></a>
                            </div>
                         </div>
                      </div>
@@ -100,11 +100,11 @@
                                           <li><a href="{% url 'webguest:orgreg' %}">Orgaziner Register</a></li>
                                           <li><a href="{% url 'webguest:teamreg' %}">Team Register</a></li>
                                           <li><a href="{% url 'webguest:userreg' %}">User Register</a></li>
-                                          <!-- <li class="dropdown mega-dropdown">
+                                          <li class="dropdown mega-dropdown">
                                              <a href="match" class="dropdown-toggle" data-toggle="dropdown">Match<span class="caret"></span></a>				
                                              <ul class="dropdown-menu mega-dropdown-menu">
                                                 <li class="col-sm-8">
-                                                   <ul> -->
+                                                   <ul>
                                                       <!-- <li class="dropdown-header">Men Collection</li>
                                                       <div id="menCollection" class="carousel slide" data-ride="carousel">
                                                          <div class="carousel-inner">
@@ -150,9 +150,9 @@
                                                 </li>
                                              </ul>
                                           </li> -->
-                                          <!-- <li><a href="blog.html">Blog</a></li>
+                                          <li><a href="blog.html">Blog</a></li>
                                           <li><a href="contact.html">contact</a></li>
-                                       </ul> -->
+                                       </ul>
                                     </div>
                                     <!-- /.nav-collapse -->
                                  </nav>
@@ -174,8 +174,9 @@
                </div>
             </div>
          </header>
+         
 
-    <br><br><br><br><br><br>
+    <br><br><br><br><br><br><br>
     {% block content %}
     {% endblock content %}
 

@@ -7,25 +7,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        table {
+            width: 70%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        .reply-not {
+            color: red;
+        }
+
+        .replyed {
+            color: green;
+        }
+    </style>
 </head>
 <body>
     <table cellpadding="10">
         <tr>
-            <td>#</td>
-            <td>Content</td>
-            <td>Date</td>
-            <td>Reply</td>
+            <th>#</th>
+            <th>Content</th>
+            <th>Date</th>
+            <th>Reply</th>
         </tr>
         {% for i in com %}
         <tr>
-            <td>{{forloop.counter}}</td>
-            <td>{{i.complaint.complaint_content}}</td>
-            <td>{{i.complaint.complaint_date}}</td>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ i.complaint.complaint_content }}</td>
+            <td>{{ i.complaint.complaint_date }}</td>
             <td>
-                {% if i.complaint.complaint_reply == "" %}
-                <span style="color: red;">Not Replyed</span>
+                {% if i.complaint.complaint_reply %}
+                <span class="replyed">{{ i.complaint.complaint_reply }}</span>
                 {% else %}
-                {{i.complaint.complaint_reply}}
+                <span class="reply-not">Not Replyed</span>
                 {% endif %}
             </td>
         </tr>
@@ -33,4 +63,5 @@
     </table>
 </body>
 </html>
+
 {% endblock content %}

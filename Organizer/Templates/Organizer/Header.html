@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="{% static 'Organizer/css/aos.css' %}">
 
     <link rel="stylesheet" href="{% static 'Organizer/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'form.css' %}">
     
   </head>
   <body>
@@ -97,9 +98,11 @@
     </header>
 
     <br><br>
+    <div id="tab" align="center">
 
     {% block content %}
     {% endblock content %}
+  </div>
 
     <!-- <footer class="site-footer border-top">
         <div class="container">

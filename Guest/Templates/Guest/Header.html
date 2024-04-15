@@ -33,6 +33,8 @@
    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
    <link href="http://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
    <script src="{% static 'Main/js/3dslider.js' %}"></script>
+   <link rel="stylesheet" href="{% static 'form.css' %}">
+   
    </head>
    <body class="game_info" data-spy="scroll" data-target=".header">
       <!-- LOADER -->
@@ -177,8 +179,10 @@
          
 
     <br><br><br><br><br><br><br>
+    <div id="tab" align="center"> 
     {% block content %}
     {% endblock content %}
+   </div>
 
 
     <!-- <footer id="footer" class="footer">

@@ -7,69 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            margin: 0;
-            padding: 0;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        th,
-        td {
-            padding: 10px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-
-        th {
-            background-color: #007bff;
-            color: #fff;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-
-        a {
-            text-decoration: none;
-            padding: 5px 10px;
-            border-radius: 4px;
-            color: #000000;
-            margin-right: 5px;
-        }
-
-        .payed {
-            color: green;
-        }
-
-        .not-payed {
-            color: red;
-        }
-
-        a.reject {
-            
-            background-color: #dc3545;
-        }
-
-        a.chat {
-            background-color: #007bff;
-        }
-
-        a:hover {
-            opacity: 0.8;
-        }
-
-        .action-column {
-            white-space: nowrap; /* Prevent line breaks in action column */
-        }
-    </style>
+   
 </head>
 
 <body>
@@ -79,7 +17,7 @@
             <tr>
                 <td colspan="5" align="right">
                     {% if event_count == 0 %}
-                    <a href="{% url 'weborganizer:schedule' %}">Schedule</a>
+                    <a href="{% url 'weborganizer:schedule_matches' %}">Schedule</a>
 
                     {% endif %}
                 </td>
@@ -105,7 +43,7 @@
                 </td>
                 <td>
                     <a href="{% url  'weborganizer:rejected' i.id %}">Reject</a>
-                    <a href="{% url 'weborganizer:chat' i.accept.team_id %}">Chat</a>
+                    
                 </td>
 
             </tr>

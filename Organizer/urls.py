@@ -21,6 +21,8 @@ urlpatterns = [
     path('rejectedlist/',views.rejectedlist,name="rejectedlist"),
     path('schedule/',views.schedule,name="schedule"),
     path('viewreply/',views.viewreply,name="viewreply"),
+    path('schedule_matches/',views.schedule_matches,name="schedule_matches"),
+    path('view_matches/',views.view_matches,name="view_matches"),
 
     path('chat/<str:id>',views.chat,name="chat"),
     path('ajaxchat/',views.ajaxchat,name="ajaxchat"),

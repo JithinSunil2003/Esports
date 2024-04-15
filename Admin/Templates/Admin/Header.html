@@ -30,6 +30,7 @@
 
     <!-- Template Stylesheet -->
     <link href="{% static 'Admin/css/style.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'form.css' %}">
 </head>
 
 <body>
@@ -179,9 +180,10 @@
                 </div>
             </nav>
             <!-- Navbar End -->
-
+<div id="tab" align="center">
 {% block content %}  
 {% endblock content %}  
+</div>
 
 
  <!-- Back to Top -->

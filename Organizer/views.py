@@ -6,7 +6,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib import messages
 from datetime import date,datetime
-
+import random
 
 db=firestore.client()
 
@@ -276,3 +276,30 @@ def viewreply(request):
 def logout(request):
     del request.session["oid"]
     return redirect("webguest:login")           
+
+
+
+def schedule_matches(request):
+  Teams=db.collection("tbl_request").where("request_status","==",1).stream()
+  shuffled_teams = list(Teams)
+  random.shuffle(shuffled_teams)
+  matches = []
+  for i in range(0, len(shuffled_users), 2):
+    if i + 1 < len(shuffled_users):
+      match_data = {'user1_id': shuffled_users[i],'user2_id': shuffled_users[i + 1]}
+      match_ref = db.collection('matches').add(match_data)
+      match_id = match_ref.id
+      matches.append({'id': match_id, **match_data})
+      return redirect("webteams:scheduledMatches")  
+  else:
+    return render(request,"Organizer/AcceptedList.html")    
+
+def view_matches(request):
+    # Initialize Firestore client
+    db = firestore.client()
+
+    # Fetch matches from Firestore
+    matches_ref = db.collection('matches')
+    matches = [match.to_dict() for match in matches_ref.stream()]
+
+    return render(request,'Organizer/ViewScheduledMatches.html', {'matches': matches})    

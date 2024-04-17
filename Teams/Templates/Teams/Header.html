@@ -1,3 +1,28 @@
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <a href="{% url 'webteams:viewevent' %}">viewevent</a>
+    <a href="{% url 'webteams:complaint' %}">Complaint</a>
+    <a href="{% url 'webteams:feedback' %}">Feedback</a>
+    <a href="{% url 'webteams:viewmemreq' %}">view member request</a>
+    <a href="{% url 'webteams:accepted' %}">accepted</a>
+    <a href="{% url 'webteams:viewreq' %}">View Event Request</a>
+</body> -->
+{% if msg %}
+<script>
+    alert("The Password Reset Link Is sented to {{msg}}")
+    window.location = "{% url 'webteams:homepage' %}"
+</script>
+{% endif %}
+</html>
+
+
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -51,22 +76,42 @@
 
       <div class="container">
         <div class="d-flex align-items-center">
-          <div class="site-logo">
-            <a href="index.html">
-              <img src="images/logo.png" alt="Logo">
+          <div class="logo">
+            <style>
+                .heading {
+color: rgb(1, 1, 10);
+text-align: left;
+font-size: 36px; /* Adjust the font size as needed */
+font-weight: bold; /* Make it bold if desired */
+margin: 0; /* Remove any default margin */
+padding: 0; /* Remove any default padding */
+}
+
+            </style>
+        <a href="index.html" class="navbar-brand p-0">
+                    <h1 class="heading">ESPORTIA</h1>
+                </a>
+                
             </a>
-          </div>
+        </div>
           <div class="ml-auto">
             <nav class="site-navigation position-relative text-right" role="navigation">
               <ul class="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
                 <li class="active"><a href="index.html" class="nav-link">Home</a></li>
                 <li><a href="{% url 'webteams:viewevent' %}" class="nav-link">Events</a></li>
-                <li><a href="players.html" class="nav-link">Players</a></li>
+                <li><a href="{% url 'webteams:viewmemreq' %}" class="nav-link">Member Request</a></li>
+                <li><a href="{% url 'webteams:accepted' %}" class="nav-link">Members</a></li>
+                <li><a href="{% url 'webteams:rejected' %}" class="nav-link">Rejeccted Members</a></li>
                 <li><a href="{% url 'webteams:Myprofile' %}" class="nav-link">My Profile</a></li>
                 <li><a href="contact.html" class="nav-link">Help</a>
-                
-                <li><a href="{% url 'webteams:viewreq' %}" class="nav-link">My Request</a></li>
-                <li><a href="" class="nav-link"></a></li>
+                  
+                  <li><a href="{% url 'webteams:viewreq' %}" class="nav-link">My Request</a></li>
+                  <li><a href="" class="nav-link"></a></li>
+                  
+                    <li class="login-modal">
+                       <button><a href="{% url 'webteams:logout' %}" class="login"><i class="fa fa-user"></i>Logout</a></button>
+                    </li>
+                  </ul>
               </ul>
             </nav>
 
@@ -78,9 +123,12 @@
 
     </header>
 <br><br><br><br><br>  
-
+<div id="tab" align="center">
+  
 {% block content %}    
-{% endblock content %}    
+{% endblock content %}   
+<br><br><br>
+</div> 
 
 
 

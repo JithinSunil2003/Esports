@@ -211,6 +211,19 @@ def rejectedlist(request):
   else:
     return render(request,"Guest/Login.html")  
   
+
+def compelted(request):
+  if 'oid' in request.session:
+    req=db.collection("tbl_request").where("request_status","==",3).stream()
+    req_data=[]
+    for i in req:
+      data=i.to_dict()
+      team = db.collection("tbl_teamreg").document(data["team_id"]).get().to_dict()
+      req_data.append({"reject":data,"id":i.id,"team":team})
+    return render(request,"Organizer/Completed.html",{"reject":req_data})
+  else:
+    return render(request,"Guest/Login.html")  
+
 def schedule(request):
   return render(request,"Organizer/Schedule.html")  
 

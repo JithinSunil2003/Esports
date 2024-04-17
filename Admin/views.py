@@ -215,3 +215,31 @@ def viewfeedback(request):
 def logout(request):
     del request.session["aid"]
     return redirect("webguest:login")        
+
+
+
+def viewreply(request):
+    if "aid" in request.session:
+        organizer_data=[]
+        user_data=[]
+        team_data=[]
+        tcom = db.collection("tbl_complaint").where("team_id", "!=",0).where("complaint_status", "==", 1).stream()
+        for i in tcom:
+            tdata = i.to_dict()
+            team = db.collection("tbl_teamreg").document(tdata["team_id"]).get().to_dict()
+            team_data.append({"complaint":i.to_dict(),"id":i.id,"team":team})
+
+        ucom=db.collection("tbl_complaint").where("user_id","!=",0).where("complaint_status","==","1").stream()
+        for i in ucom:
+            udata = i.to_dict()
+            user = db.collection("tbl_userreg").document(udata["user_id"]).get().to_dict()
+            user_data.append({"complaint":i.to_dict(),"id":i.id,"user":user}) 
+
+        ocom=db.collection("tbl_complaint").where("organizer_id","!=",0).where("complaint_status","==",1).stream()
+        for i in ocom:
+            odata = i.to_dict()
+            organizer = db.collection("tbl_orgreg").document(odata["organizer_id"]).get().to_dict()
+            organizer_data.append({"complaint":i.to_dict(),"id":i.id,"organizer":organizer}) 
+        return render(request,"Admin/ViewComplaints.html",{"team":team_data,"user":user_data,"organizer":organizer_data})    
+    else:
+        return render(request,"Guest/Login.html")    

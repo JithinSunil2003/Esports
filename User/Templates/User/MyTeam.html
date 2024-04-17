@@ -1,0 +1,48 @@
+{% extends 'User/Header.html' %}
+{% load static %}
+{% block content %} 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+</head>
+<body>
+    <form action="" method="post">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <th>#</th>
+                <th>Photo</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Email</th>
+                <th>Contact</th>
+                <th>Status</th>
+            </tr>
+            {% for i in view %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td><img src="{{i.team.team_photo}}" alt="Team Photo"></td>
+                <td>{{i.team.team_name}}</td>
+                <td>{{i.team.team_address}}</td>
+                <td>{{i.team.team_email}}</td>
+                <td>{{i.team.team_contact}}</td>
+                <td>{% if i.view.member_request_status == 1 %}
+                    Approved | <a href="{% url 'webuser:chat' i.view.team_id %}" class="chat-btn">Chat</a>
+                    {% elif i.view.member_request_status == 2 %}
+                    Rejected
+                    {% else %}
+                    Pending
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}    
+        </table>
+    </form>
+</body>
+</html>
+
+{% endblock content %}

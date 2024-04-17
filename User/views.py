@@ -137,6 +137,19 @@ def myreq(request):
     return render(request,"User/MyRequest.html",{"view":memreq_data})
   else:
     return render(request,"Guest/Login.html")  
+
+
+def myteam(request):
+  if "uid" in request.session:
+    memreq=db.collection("tbl_memberreq").where("user_id","==",request.session["uid"]).stream()
+    memreq_data=[]
+    for i in memreq:
+      data=i.to_dict()
+      team=db.collection("tbl_teamreg").document(data["team_id"]).get().to_dict()
+      memreq_data.append({"view":data,"id":i.id,"team":team})
+    return render(request,"User/MyTeam.html",{"view":memreq_data})
+  else:
+    return render(request,"Guest/Login.html")      
   
 def chat(request,id):
   if "uid" in request.session:
@@ -202,3 +215,21 @@ def viewreply(request):
 def logout(request):
     del request.session["uid"]
     return redirect("webguest:login")   
+
+
+def viewevent(request):
+  if "uid" in request.session:
+    Etype=db.collection("tbl_Eventtype").where("team_id","==",request.session["teamid"]).stream()
+    Etype_data=[]
+    for i in Etype:
+      data=i.to_dict()
+      Etype_data.append({"Etype":i.to_dict(),"id":i.id})
+    result=[]
+    event_data=db.collection("tbl_event").stream()
+    for event in event_data:
+      event_dict=event.to_dict()
+      Etype=db.collection("tbl_Eventtype").document(event_dict["Eventtype_id"]).get().to_dict()
+      result.append({'Etypedata':Etype,'event_data':event_dict,'eventid':event.id})
+    return render(request,"User/ViewEvents.html",{"event_data":result})
+  else:
+    return render(request,"Guest/Login.html")   

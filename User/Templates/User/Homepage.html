@@ -150,11 +150,11 @@
                     <div class="col-lg-10">
                         <div class="nav-menu">
                             <ul class="main-menu">
-                                <li class="active"><a href="./index.html">Home</a></li>
+                                <li class="active"><a href="{% url 'webuser:homepage' %}">Home</a></li>
                                 <li><a href="{% url 'webuser:viewteams' %}">Teams</a></li>
                                 <li><a href="{% url 'webuser:myreq' %}">My Request</a></li>
-                                <li><a href="{% url 'webuser:viewteams' %}">Results</a></li>
-                                <li><a href="#">Event</a></li>
+                                <li><a href="{% url 'webuser:myteam' %}">My Teams</a></li>
+                                <li><a href="{% url 'webuser:viewevent' %}">Event</a></li>
                                 <li><a href="#">Contact Us</a>
                                     <ul class="dropdown">
                                         <li><a href="{% url 'webuser:complaint' %}">Complaint</a></li>
@@ -165,9 +165,10 @@
                                 </li>
                                 <li><a href="{% url 'webuser:Myprofile' %}">My Profile</a></li>
                             </ul>
-                            <div class="nm-right search-switch">
-                                <i class="fa fa-search"></i>
+                            <div class="nm-right logout-switch">
+                                <i class="fa fa-sign-out"> <a href="">Logout</a></i>
                             </div>
+                            
                         </div>
                     </div>
                 </div>

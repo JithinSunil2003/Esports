@@ -65,7 +65,7 @@
 
           <ul class="site-menu js-clone-nav d-none d-md-block">
             <li class="has-children active">
-              <a href="index.html">Home</a>
+              <li class="active"><a href="{% url 'weborganizer:homepage' %}">Home</a></li>
               <ul class="dropdown arrow-top">
                 <!-- <li><a href="#">Menu One</a></li>
                 <li><a href="#">Menu Two</a></li>
@@ -83,6 +83,7 @@
             <li><a href="{% url 'weborganizer:Myprofile' %}">My Profile</a></li>
             <li><a href="{% url 'weborganizer:event' %}">Events</a></li>
             <li><a href="{% url 'weborganizer:viewreq' %}">View Request</a></li>
+            <li><a href="{% url 'weborganizer:compelted' %}">completed</a></li>
             <!-- <li><a href="contact.html">Contact</a></li> -->
             <li class="has-children">
               <a href="#">Help</a>

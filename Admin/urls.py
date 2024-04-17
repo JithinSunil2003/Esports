@@ -15,6 +15,7 @@ urlpatterns = [
         path('editeventtype/<str:id>',views.editeventtype,name="editeventtype"),
        
         path('Admin/',views.admin,name="admin"),
+        path('viewreply/',views.viewreply,name="viewreply"),
         path('Homepage/',views.homepage,name="homepage"),
         path('ViewComplaint/',views.viewcomplaint,name="viewcomplaint"),
         path('Reply/<str:id>',views.reply,name="reply"),

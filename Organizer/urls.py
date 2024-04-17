@@ -19,10 +19,12 @@ urlpatterns = [
     path('rejected/<str:id>',views.rejected,name="rejected"),
     path('acceptedlist/<str:id>',views.acceptedlist,name="acceptedlist"),
     path('rejectedlist/',views.rejectedlist,name="rejectedlist"),
+    path('compl/',views.rejectedlist,name="rejectedlist"),
     path('schedule/',views.schedule,name="schedule"),
     path('viewreply/',views.viewreply,name="viewreply"),
     path('schedule_matches/',views.schedule_matches,name="schedule_matches"),
     path('view_matches/',views.view_matches,name="view_matches"),
+    path('compelted/',views.compelted,name="compelted"),
 
     path('chat/<str:id>',views.chat,name="chat"),
     path('ajaxchat/',views.ajaxchat,name="ajaxchat"),

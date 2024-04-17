@@ -1,3 +1,28 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <a href="{% url 'webuser:viewteams' %}">viewteams</a>
+    <a href="{% url 'webuser:complaint' %}">Complaint</a>
+    <a href="{% url 'webuser:feedback' %}">Feedback</a>
+    <a href="{% url 'webuser:myreq' %}">My request</a>
+    <a href="{% url 'webuser:Myprofile' %}">Myprofile</a>
+</body> -->
+{% if msg %}
+<script>
+    alert("The Password Reset Link Is sented to {{msg}}")
+    window.location = "{% url 'webuser:homepage' %}"
+</script>
+{% endif %}
+</html>
+
+
+
+
 {% load static %}
 <!DOCTYPE html>
 <html lang="zxx">
@@ -20,7 +45,6 @@
     <link rel="stylesheet" href="{% static 'User/css/magnific-popup.css' %}" type="text/css">
     <link rel="stylesheet" href="{% static 'User/css/slicknav.min.css' %}" type="text/css">
     <link rel="stylesheet" href="{% static 'User/css/style.css' %}" type="text/css">
-    <link rel="stylesheet" href="{% static 'form.css' %}">
 </head>
 
 <body>
@@ -105,17 +129,32 @@
                 <div class="row">
                     <div class="col-lg-2">
                         <div class="logo">
-                            <a href="./index.html"><img src="img/logo.png" alt=""></a>
+                            <style>
+                                .heading {
+    color: rgb(1, 1, 10);
+    text-align: left;
+    font-size: 36px; /* Adjust the font size as needed */
+    font-weight: bold; /* Make it bold if desired */
+    margin: 0; /* Remove any default margin */
+    padding: 0; /* Remove any default padding */
+}
+
+                            </style>
+                        <a href="index.html" class="navbar-brand p-0">
+                                    <h1 class="heading">ESPORTIA</h1>
+                                </a>
+                                
+                            </a>
                         </div>
                     </div>
                     <div class="col-lg-10">
                         <div class="nav-menu">
                             <ul class="main-menu">
-                                <li class="active"><a href="./index.html">Home</a></li>
+                                <li class="active"><a href="{% url 'webuser:homepage' %}">Home</a></li>
                                 <li><a href="{% url 'webuser:viewteams' %}">Teams</a></li>
                                 <li><a href="{% url 'webuser:myreq' %}">My Request</a></li>
-                                <li><a href="{% url 'webuser:viewteams' %}">Results</a></li>
-                                <li><a href="#">Event</a></li>
+                                <li><a href="{% url 'webuser:myteam' %}">My Teams</a></li>
+                                <li><a href="{% url 'webuser:viewevent' %}">Event</a></li>
                                 <li><a href="#">Contact Us</a>
                                     <ul class="dropdown">
                                         <li><a href="{% url 'webuser:complaint' %}">Complaint</a></li>
@@ -126,9 +165,10 @@
                                 </li>
                                 <li><a href="{% url 'webuser:Myprofile' %}">My Profile</a></li>
                             </ul>
-                            <div class="nm-right search-switch">
-                                <i class="fa fa-search"></i>
+                            <div class="nm-right logout-switch">
+                                <i class="fa fa-sign-out"> <a href="">Logout</a></i>
                             </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -138,7 +178,7 @@
             </div>
         </div>
     </header>
-    <!-- Header End -->
+    <br><br><br><br>
     <div id="tab" align="center">
 {% block content %}
 {% endblock content %}

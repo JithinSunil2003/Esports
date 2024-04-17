@@ -18,7 +18,7 @@
                 <td>Name</td>
                 <td>Contact</td>
                 <td>Email</td>
-                <td>Status</td>
+                <td>Action</td>
             </tr>
             {% for i in view %}
             <tr>
@@ -27,9 +27,9 @@
                 <td>{{i.user.user_name}}</td> 
                 <td>{{i.user.user_contact}}</td>
                 <td>{{i.user.user_email}}</td>
-                <td>{{i.view.member_request_status}}</td>
-                <td><a href="{% url 'webteams:accept' i.id %}">Accept</a></td>
-                <td><a href="{% url 'webteams:reject' i.id %}">Reject</a></td>
+                
+                <td><a href="{% url 'webteams:accept' i.id %}">Accept</a> | 
+                <a href="{% url 'webteams:reject' i.id %}">Reject</a></td>
              
             </tr>
             {% endfor %}
